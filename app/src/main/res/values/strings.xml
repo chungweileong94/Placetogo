@@ -1,4 +1,7 @@
 <resources>
+    <string name="facebook_app_id">366232103799689</string>
+    <string name="fb_login_protocol_scheme">fb366232103799689</string>
+
     <string name="app_name">Placetogo</string>
     <string name="login">Login</string>
 </resources>

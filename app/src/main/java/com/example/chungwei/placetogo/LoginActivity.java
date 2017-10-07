@@ -1,8 +1,8 @@
 package com.example.chungwei.placetogo;
 
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 
@@ -14,5 +14,20 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        final ImageView background_imageView = (ImageView) findViewById(R.id.background_imageView);
+        background_imageView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                Blurry.with(getBaseContext())
+                        .radius(25)
+                        .sampling(4)
+                        .color(Color.argb(100, 0, 0, 0))
+                        .capture(background_imageView)
+                        .into(background_imageView);
+
+                background_imageView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            }
+        });
     }
 }
