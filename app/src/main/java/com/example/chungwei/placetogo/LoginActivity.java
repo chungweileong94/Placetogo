@@ -1,8 +1,10 @@
 package com.example.chungwei.placetogo;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 
@@ -27,6 +29,13 @@ public class LoginActivity extends AppCompatActivity {
                         .into(background_imageView);
 
                 background_imageView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            }
+        });
+
+        findViewById(R.id.facebookLogin_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(view.getContext(), MainActivity.class));
             }
         });
     }

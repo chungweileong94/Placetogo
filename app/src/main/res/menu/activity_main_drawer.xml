@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/addremove"
+            android:icon="@drawable/ic_addremove"
+            android:title="@string/addRemoveWishlistText" />
+        <item
+            android:id="@+id/navigateme"
+            android:icon="@drawable/ic_navigateme"
+            android:title="@string/navigateMeText" />
+        <item
+            android:id="@+id/feelinglucky"
+            android:icon="@drawable/ic_feelinglucky"
+            android:title="@string/feelingLuckyText" />
+        <item
+            android:id="@+id/arroundme"
+            android:icon="@drawable/ic_aroundme"
+            android:title="@string/aroundMeText" />
+        <item
+            android:id="@+id/placevisited"
+            android:icon="@drawable/ic_visit"
+            android:title="@string/visitedPlaceText" />
+    </group>
+
+
+    <item android:title="@string/toolsText">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/appsettings"
+                    android:icon="@drawable/ic_appsettings"
+                    android:title="@string/appSettingText" />
+                <item
+                    android:id="@+id/usersettings"
+                    android:icon="@drawable/ic_user"
+                    android:title="@string/userSettingText" />
+            </group>
+        </menu>
+    </item>
+
+</menu>
