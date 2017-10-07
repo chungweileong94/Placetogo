@@ -40,17 +40,24 @@
             android:layout_marginBottom="28dp"
             android:shadowColor="#000000"
             android:shadowRadius="40"
-            android:text="Jom . Play"
+            android:text="@string/jom_play"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
 
         <Button
             android:id="@+id/facebookLogin_button"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_below="@id/sub_textView"
+            android:layout_centerHorizontal="true"
             android:layout_margin="16dp"
-            android:backgroundTint="#4267B2"
-            android:text="Facebook Login" />
+            android:backgroundTint="@color/com_facebook_blue"
+            android:drawablePadding="30dp"
+            android:drawableStart="@drawable/fb_logo"
+            android:padding="18dp"
+            android:paddingEnd="40dp"
+            android:paddingStart="40dp"
+            android:text="@string/connect_to_facebook"
+            android:textSize="16sp" />
     </RelativeLayout>
 
 </RelativeLayout>

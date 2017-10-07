@@ -3,7 +3,6 @@
     <string name="fb_login_protocol_scheme">fb366232103799689</string>
 
     <string name="app_name">Placetogo</string>
-    <string name="login">Login</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -11,20 +10,14 @@
 
 
     //Main Screen Text/String Declaration
-    <string name="navigateText">NAVIGATE</string>
-    <string name="feelingLuckyText">FEELING LUCKY</string>
-    <string name="aroundMeText">AROUND ME</string>
-    <string name="addRemoveWishlistText">ADD/REMOVE WISHLIST</string>
-    <string name="navigateMeText">NAVIGATE ME</string>
-    <string name="appSettingText">APP SETTINGS</string>
-    <string name="userSettingText">USER SETTINGS</string>
-    <string name="viewHistory">VISIT HISTORY</string>
-    <string name="wishlistLeftText">WISHLIST LEFT :</string>
-    <string name="placesVisitedText">PLACE VISITED :</string>
-    <string name="toolsText">TOOLS</string>
-    <string name="visitedPlaceText">VISITED PLACE</string>
+    <string name="navigate">Navigate</string>
+    <string name="feeling_lucky">Feeling Lucky</string>
+    <string name="near_by">Near By</string>
+    <string name="add_Remove_Wish_List">Wishlist</string>
+    <string name="history">History</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="connect_to_facebook">Connect to Facebook</string>
+    <string name="jom_play">Jom . Play</string>
+    <string name="settings">Settings</string>
 
 </resources>

@@ -3,41 +3,35 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/addremove"
+            android:id="@+id/wishlist_nav_item"
             android:icon="@drawable/ic_addremove"
-            android:title="@string/addRemoveWishlistText" />
+            android:title="@string/add_Remove_Wish_List" />
         <item
-            android:id="@+id/navigateme"
+            android:id="@+id/navigate_nav_item"
             android:icon="@drawable/ic_navigateme"
-            android:title="@string/navigateMeText" />
+            android:title="@string/navigate" />
         <item
-            android:id="@+id/feelinglucky"
+            android:id="@+id/feeling_lucky_nav_item"
             android:icon="@drawable/ic_feelinglucky"
-            android:title="@string/feelingLuckyText" />
+            android:title="@string/feeling_lucky" />
         <item
-            android:id="@+id/arroundme"
+            android:id="@+id/near_by_nav_item"
             android:icon="@drawable/ic_aroundme"
-            android:title="@string/aroundMeText" />
+            android:title="@string/near_by" />
         <item
-            android:id="@+id/placevisited"
+            android:id="@+id/history_nav_item"
             android:icon="@drawable/ic_visit"
-            android:title="@string/visitedPlaceText" />
+            android:title="@string/history" />
     </group>
 
-
-    <item android:title="@string/toolsText">
-        <menu>
-            <group android:checkableBehavior="single">
+    <group>
+        <item android:title="Others">
+            <menu>
                 <item
-                    android:id="@+id/appsettings"
+                    android:id="@+id/settings_nav_item"
                     android:icon="@drawable/ic_appsettings"
-                    android:title="@string/appSettingText" />
-                <item
-                    android:id="@+id/usersettings"
-                    android:icon="@drawable/ic_user"
-                    android:title="@string/userSettingText" />
-            </group>
-        </menu>
-    </item>
-
+                    android:title="@string/settings" />
+            </menu>
+        </item>
+    </group>
 </menu>
