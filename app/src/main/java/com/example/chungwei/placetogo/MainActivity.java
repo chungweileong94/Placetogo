@@ -58,13 +58,18 @@ public class MainActivity extends AppCompatActivity
             case R.id.home_nav_item:
                 navigateFragment(HomeFragment.newInstance(), R.id.home_nav_item);
                 break;
+
             case R.id.mission_nav_item:
                 navigateFragment(MissionFragment.newInstance(), R.id.mission_nav_item);
                 break;
+
             case R.id.near_by_nav_item:
+                navigateFragment(NearByFragment.newInstance(), R.id.near_by_nav_item);
                 break;
+
             case R.id.history_nav_item:
                 break;
+
             case R.id.settings_nav_item:
                 break;
         }
