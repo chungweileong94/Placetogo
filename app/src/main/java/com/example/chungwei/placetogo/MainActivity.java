@@ -29,10 +29,21 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        navigateFragment(HomeFragment.newInstance(), R.id.home_nav_item);
+
+        getSupportFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+            @Override
+            public void onBackStackChanged() {
+
+            }
+        });
     }
 
     @Override
     public void onBackPressed() {
+        super.onBackPressed();
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
@@ -45,8 +56,10 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.home_nav_item:
+                navigateFragment(HomeFragment.newInstance(), R.id.home_nav_item);
                 break;
             case R.id.mission_nav_item:
+                navigateFragment(MissionFragment.newInstance(), R.id.mission_nav_item);
                 break;
             case R.id.near_by_nav_item:
                 break;
@@ -61,10 +74,28 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    private void navigateFragment(Fragment fragment) {
+    private void navigateFragment(Fragment fragment, int nav_item_id) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.content_frameLayout, fragment)
                 .commit();
+
+        switch (nav_item_id) {
+            case R.id.home_nav_item:
+                setTitle(getResources().getString(R.string.home));
+                break;
+            case R.id.mission_nav_item:
+                setTitle(getResources().getString(R.string.mission));
+                break;
+            case R.id.near_by_nav_item:
+                setTitle(getResources().getString(R.string.near_by));
+                break;
+            case R.id.history_nav_item:
+                setTitle(getResources().getString(R.string.history));
+                break;
+            case R.id.settings_nav_item:
+                setTitle(getResources().getString(R.string.settings));
+                break;
+        }
     }
 }
