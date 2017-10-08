@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -61,6 +62,15 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        view.findViewById(R.id.search_floatingActionButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                builder.setMessage("Search happening (natural language processing)");
+                builder.create().show();
+            }
+        });
+
         view.findViewById(R.id.mission_cardView).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -70,6 +80,9 @@ public class HomeFragment extends Fragment {
                         .replace(R.id.content_frameLayout, MissionFragment.newInstance())
                         .commit();
                 activity.setTitle(R.string.mission);
+//                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+//                builder.setMessage("Not yet implement");
+//                builder.create().show();
             }
         });
 
