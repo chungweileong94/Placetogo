@@ -8,16 +8,16 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_settings">Settings</string>
 
-
-    //Main Screen Text/String Declaration
-    <string name="navigate">Navigate</string>
-    <string name="feeling_lucky">Feeling Lucky</string>
+    <string name="home">Home</string>
+    <string name="mission">Mission</string>
     <string name="near_by">Near By</string>
-    <string name="add_Remove_Wish_List">Wishlist</string>
     <string name="history">History</string>
+    <string name="settings">Settings</string>
 
     <string name="connect_to_facebook">Connect to Facebook</string>
     <string name="jom_play">Jom . Play</string>
-    <string name="settings">Settings</string>
+    <string name="others">Others</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

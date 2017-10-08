@@ -44,15 +44,13 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.wishlist_nav_item:
+            case R.id.home_nav_item:
                 break;
-            case R.id.navigate_nav_item:
-                break;
-            case R.id.history_nav_item:
-                break;
-            case R.id.feeling_lucky_nav_item:
+            case R.id.mission_nav_item:
                 break;
             case R.id.near_by_nav_item:
+                break;
+            case R.id.history_nav_item:
                 break;
             case R.id.settings_nav_item:
                 break;

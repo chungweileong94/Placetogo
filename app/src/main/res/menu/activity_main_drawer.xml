@@ -3,33 +3,29 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/wishlist_nav_item"
-            android:icon="@drawable/ic_addremove"
-            android:title="@string/add_Remove_Wish_List" />
+            android:id="@+id/home_nav_item"
+            android:icon="@drawable/ic_home_black_24dp"
+            android:title="@string/home" />
         <item
-            android:id="@+id/navigate_nav_item"
-            android:icon="@drawable/ic_navigateme"
-            android:title="@string/navigate" />
-        <item
-            android:id="@+id/feeling_lucky_nav_item"
-            android:icon="@drawable/ic_feelinglucky"
-            android:title="@string/feeling_lucky" />
+            android:id="@+id/mission_nav_item"
+            android:icon="@drawable/ic_mission_black_24dp"
+            android:title="@string/mission" />
         <item
             android:id="@+id/near_by_nav_item"
-            android:icon="@drawable/ic_aroundme"
+            android:icon="@drawable/ic_near_me_black_24dp"
             android:title="@string/near_by" />
         <item
             android:id="@+id/history_nav_item"
-            android:icon="@drawable/ic_visit"
+            android:icon="@drawable/ic_history_black_24dp"
             android:title="@string/history" />
     </group>
 
     <group>
-        <item android:title="Others">
+        <item android:title="@string/others">
             <menu>
                 <item
                     android:id="@+id/settings_nav_item"
-                    android:icon="@drawable/ic_appsettings"
+                    android:icon="@drawable/ic_settings_black_24dp"
                     android:title="@string/settings" />
             </menu>
         </item>
