@@ -22,4 +22,23 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="what_s_in_your_mind">What\'s in your mind</string>
     <string name="home_mission_msg">Let\'s go for challenge!</string>
+
+
+    //Welcome Screen String
+    <string name="next">NEXT</string>
+    <string name="skip">SKIP</string>
+    <string name="start">GOT IT</string>
+
+    <string name="WelComePageTitle">Welcome to PlaceToGo</string>
+    <string name="WelcomePageContent">Thank you for installing. Prepare to get amazed. Lets Go!!</string>
+
+    <string name="WelComePage2Title">Challenge Much?</string>
+    <string name="WelcomePage2Content">Find traditional way of exploring boring? Well, here we have list of challenges for you to take and have an amusing experience with achievement points!!!</string>
+
+    <string name="WelComePage3Title">Roam Around Alot?</string>
+    <string name="WelcomePage3Content">Can\'t decide where to eat or go? Give it to us. We will find you the best yet nearest place you want to eat or visit.</string>
+
+    <string name="WelComePage4Title">Just Say It!</string>
+    <string name="WelcomePage4Content">Want to move around faster? Well you can use our speech recognition feature to look for a place to go instead of typing it out.</string>
+
 </resources>
