@@ -2,11 +2,14 @@ package com.example.chungwei.placetogo;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -15,6 +18,9 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -35,7 +41,7 @@ public class NearByFragment extends Fragment {
     private RecyclerView.Adapter recyclerViewAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
 
-    private boolean isRefreshManuallyTriger = false;
+    private boolean isRefreshManuallyTrigger = false;
 
     public NearByFragment() {
         // Required empty public constructor
@@ -49,6 +55,7 @@ public class NearByFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -86,8 +93,23 @@ public class NearByFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_nearby_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.refresh_menuItem) {
+            loadNearByLocation();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     private void loadNearByLocation() {
-        isRefreshManuallyTriger = true;
+        isRefreshManuallyTrigger = true;
         LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 
         if (ActivityCompat.checkSelfPermission(context,
@@ -101,13 +123,30 @@ public class NearByFragment extends Fragment {
             return;
         }
 
+        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setTitle("GPS is disabled");
+            builder.setMessage("Please turn on the GPS and pull to refresh again.");
+            builder.setPositiveButton("Go to GPS settings", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    context.startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                    dialogInterface.dismiss();
+                }
+            });
+            builder.setNegativeButton("Close", null);
+            builder.create().show();
+
+            return;
+        }
+
         swipeRefreshLayout.setRefreshing(true);
 
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new
                 LocationListener() {
                     @Override
                     public void onLocationChanged(Location location) {
-                        if (!isRefreshManuallyTriger) return;
+                        if (!isRefreshManuallyTrigger) return;
 
                         //get coordinate
                         String ll = String.valueOf(location.getLatitude()) +
@@ -139,7 +178,7 @@ public class NearByFragment extends Fragment {
                             }
                         }, ll, null, 20);
 
-                        isRefreshManuallyTriger = false;
+                        isRefreshManuallyTrigger = false;
                     }
 
                     @Override
