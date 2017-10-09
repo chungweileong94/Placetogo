@@ -62,6 +62,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        //search button
         view.findViewById(R.id.search_floatingActionButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -71,6 +72,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        //challenge card view on click
         view.findViewById(R.id.mission_cardView).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

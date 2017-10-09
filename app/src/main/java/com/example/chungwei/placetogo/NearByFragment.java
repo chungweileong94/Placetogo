@@ -109,9 +109,11 @@ public class NearByFragment extends Fragment {
                     public void onLocationChanged(Location location) {
                         if (!isRefreshManuallyTriger) return;
 
+                        //get coordinate
                         String ll = String.valueOf(location.getLatitude()) +
                                 "," + String.valueOf(location.getLongitude());
 
+                        //fetch data
                         foursquareService = new FoursquareService(context);
                         foursquareService.getVenueRecommendation(new IFoursquareResponse<RecommendationResult>() {
                             @Override
