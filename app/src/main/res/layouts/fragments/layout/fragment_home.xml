@@ -13,6 +13,13 @@
         android:src="@drawable/back_image"
         tools:visibility="visible" />
 
+    <com.github.mmin18.widget.RealtimeBlurView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:realtimeBlurRadius="25dp"
+        app:realtimeOverlayColor="#80000000" />
+
+
     <ScrollView
         android:id="@+id/content_scrollView"
         android:layout_width="match_parent"

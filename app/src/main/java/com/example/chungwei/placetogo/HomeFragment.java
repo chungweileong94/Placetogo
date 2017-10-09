@@ -1,7 +1,5 @@
 package com.example.chungwei.placetogo;
 
-import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -10,16 +8,10 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.widget.ImageView;
 import android.widget.ScrollView;
-
-import jp.wasabeef.blurry.Blurry;
 
 
 public class HomeFragment extends Fragment {
-
-    private ImageView background_imageView;
 
     public HomeFragment() {
 
@@ -36,18 +28,15 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle(getResources().getString(R.string.home));
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_home, container, false);
-
-        background_imageView = view.findViewById(R.id.background_imageView);
-        background_imageView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                blurBackground(view.getContext());
-                background_imageView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-            }
-        });
 
         //disable auto focus
         ScrollView scrollView = view.findViewById(R.id.content_scrollView);
@@ -79,22 +68,29 @@ public class HomeFragment extends Fragment {
                 AppCompatActivity activity = (AppCompatActivity) view.getContext();
                 activity.getSupportFragmentManager()
                         .beginTransaction()
-                        .setCustomAnimations(R.anim.fade_in_animation, R.anim.fade_out_animation)
+                        .setCustomAnimations(R.anim.fade_in_animation, R.anim.fade_out_animation,
+                                R.anim.fade_in_animation, R.anim.fade_out_animation)
                         .replace(R.id.content_frameLayout, MissionFragment.newInstance())
+                        .addToBackStack(MainActivity.fragment_nav_backstack_tag)
                         .commit();
-                activity.setTitle(R.string.mission);
+            }
+        });
+
+        //nearby card view on click
+        view.findViewById(R.id.nearby_cardView).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                activity.getSupportFragmentManager()
+                        .beginTransaction()
+                        .setCustomAnimations(R.anim.fade_in_animation, R.anim.fade_out_animation,
+                                R.anim.fade_in_animation, R.anim.fade_out_animation)
+                        .replace(R.id.content_frameLayout, NearByFragment.newInstance())
+                        .addToBackStack(MainActivity.fragment_nav_backstack_tag)
+                        .commit();
             }
         });
 
         return view;
-    }
-
-    private void blurBackground(Context context) {
-        Blurry.with(context)
-                .radius(25)
-                .sampling(6)
-                .color(Color.argb(100, 0, 0, 0))
-                .capture(background_imageView)
-                .into(background_imageView);
     }
 }

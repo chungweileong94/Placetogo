@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -14,10 +15,13 @@ import android.view.MenuItem;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    public static final String fragment_nav_backstack_tag = "main_nav";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -31,17 +35,21 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         //navigate to home fragment
-        navigateFragment(HomeFragment.newInstance(), R.id.home_nav_item);
+        navigateFragment(HomeFragment.newInstance(), false);
     }
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            if (fragmentManager.getBackStackEntryCount() > 0) {
+                fragmentManager.popBackStack();
+                return;
+            }
+
             super.onBackPressed();
         }
     }
@@ -50,15 +58,15 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.home_nav_item:
-                navigateFragment(HomeFragment.newInstance(), R.id.home_nav_item);
+                navigateFragment(HomeFragment.newInstance(), true);
                 break;
 
             case R.id.mission_nav_item:
-                navigateFragment(MissionFragment.newInstance(), R.id.mission_nav_item);
+                navigateFragment(MissionFragment.newInstance(), true);
                 break;
 
             case R.id.near_by_nav_item:
-                navigateFragment(NearByFragment.newInstance(), R.id.near_by_nav_item);
+                navigateFragment(NearByFragment.newInstance(), true);
                 break;
 
             case R.id.history_nav_item:
@@ -74,29 +82,18 @@ public class MainActivity extends AppCompatActivity
     }
 
     //used for navigate fragment
-    private void navigateFragment(Fragment fragment, int nav_item_id) {
+    private void navigateFragment(Fragment fragment, boolean addToBackStack) {
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .setCustomAnimations(R.anim.fade_in_animation, R.anim.fade_out_animation)
-                .replace(R.id.content_frameLayout, fragment)
-                .commit();
 
-        switch (nav_item_id) {
-            case R.id.home_nav_item:
-                setTitle(getResources().getString(R.string.home));
-                break;
-            case R.id.mission_nav_item:
-                setTitle(getResources().getString(R.string.mission));
-                break;
-            case R.id.near_by_nav_item:
-                setTitle(getResources().getString(R.string.near_by));
-                break;
-            case R.id.history_nav_item:
-                setTitle(getResources().getString(R.string.history));
-                break;
-            case R.id.settings_nav_item:
-                setTitle(getResources().getString(R.string.settings));
-                break;
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setCustomAnimations(R.anim.fade_in_animation, R.anim.fade_out_animation,
+                R.anim.fade_in_animation, R.anim.fade_out_animation);
+        transaction.replace(R.id.content_frameLayout, fragment);
+
+        if (addToBackStack) {
+            transaction.addToBackStack(fragment_nav_backstack_tag);
         }
+
+        transaction.commit();
     }
 }
