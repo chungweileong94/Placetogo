@@ -77,12 +77,10 @@ public class HomeFragment extends Fragment {
                 AppCompatActivity activity = (AppCompatActivity) view.getContext();
                 activity.getSupportFragmentManager()
                         .beginTransaction()
+                        .setCustomAnimations(R.anim.fade_in_animation, R.anim.fade_out_animation)
                         .replace(R.id.content_frameLayout, MissionFragment.newInstance())
                         .commit();
                 activity.setTitle(R.string.mission);
-//                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-//                builder.setMessage("Not yet implement");
-//                builder.create().show();
             }
         });
 

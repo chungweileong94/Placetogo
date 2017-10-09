@@ -82,6 +82,7 @@ public class MainActivity extends AppCompatActivity
     private void navigateFragment(Fragment fragment, int nav_item_id) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.fade_in_animation, R.anim.fade_out_animation)
                 .replace(R.id.content_frameLayout, fragment)
                 .commit();
 
