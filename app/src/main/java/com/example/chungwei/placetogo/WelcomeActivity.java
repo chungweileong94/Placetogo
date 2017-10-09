@@ -61,10 +61,10 @@ public class WelcomeActivity extends AppCompatActivity {
 
         //Welcome screen layout changing partial code.
         layouts = new int[]{
-                R.layout.welcomelayout1,
-                R.layout.welcomelayout2,
-                R.layout.welcomelayout3,
-                R.layout.welcomelayout4};
+                R.layout.welcome_1_layout,
+                R.layout.welcome_2_layout,
+                R.layout.welcome_3_layout,
+                R.layout.welcome_4_layout};
 
         addBottomDots(0);
         changeStatusBarColor();
