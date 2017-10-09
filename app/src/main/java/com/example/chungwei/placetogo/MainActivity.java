@@ -30,14 +30,8 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        //navigate to home fragment
         navigateFragment(HomeFragment.newInstance(), R.id.home_nav_item);
-
-        getSupportFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
-            @Override
-            public void onBackStackChanged() {
-
-            }
-        });
     }
 
     @Override
@@ -79,6 +73,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    //used for navigate fragment
     private void navigateFragment(Fragment fragment, int nav_item_id) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
