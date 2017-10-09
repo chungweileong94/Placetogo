@@ -41,5 +41,6 @@
     <string name="WelComePage4Title">Just Say It!</string>
     <string name="WelcomePage4Content">Want to move around faster? Well you can use our speech recognition feature to look for a place to go instead of typing it out.</string>
     <string name="refresh">Refresh</string>
+    <string name="home_nearby_msg">Need recommendation?</string>
 
 </resources>
