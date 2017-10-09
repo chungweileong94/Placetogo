@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
+    <group android:checkableBehavior="none">
         <item
             android:id="@+id/home_nav_item"
             android:icon="@drawable/ic_home_black_24dp"
@@ -20,7 +20,7 @@
             android:title="@string/history" />
     </group>
 
-    <group>
+    <group android:checkableBehavior="none">
         <item android:title="@string/others">
             <menu>
                 <item

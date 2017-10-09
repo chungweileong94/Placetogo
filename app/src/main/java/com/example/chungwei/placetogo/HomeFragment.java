@@ -62,6 +62,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        //search button
         view.findViewById(R.id.search_floatingActionButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -71,18 +72,17 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        //challenge card view on click
         view.findViewById(R.id.mission_cardView).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AppCompatActivity activity = (AppCompatActivity) view.getContext();
                 activity.getSupportFragmentManager()
                         .beginTransaction()
+                        .setCustomAnimations(R.anim.fade_in_animation, R.anim.fade_out_animation)
                         .replace(R.id.content_frameLayout, MissionFragment.newInstance())
                         .commit();
                 activity.setTitle(R.string.mission);
-//                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-//                builder.setMessage("Not yet implement");
-//                builder.create().show();
             }
         });
 
