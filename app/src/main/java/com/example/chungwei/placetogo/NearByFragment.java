@@ -117,7 +117,7 @@ public class NearByFragment extends Fragment {
                 ActivityCompat.checkSelfPermission(context,
                         Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
                     LOCATION_PERMISSIONS_CODE);
 
             return;
@@ -142,7 +142,8 @@ public class NearByFragment extends Fragment {
 
         swipeRefreshLayout.setRefreshing(true);
 
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new
+        // GPS_PROVIDER got problem, use NETWORK_PROVIDER instead
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, new
                 LocationListener() {
                     @Override
                     public void onLocationChanged(Location location) {
