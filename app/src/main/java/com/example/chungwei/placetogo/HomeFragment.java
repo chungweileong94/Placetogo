@@ -22,7 +22,7 @@ public class HomeFragment extends Fragment {
     private ImageView background_imageView;
 
     public HomeFragment() {
-        // Required empty public constructor
+
     }
 
     public static HomeFragment newInstance() {
