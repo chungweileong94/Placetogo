@@ -1,9 +1,9 @@
-package com.example.chungwei.placetogo;
+package com.example.chungwei.placetogo.helpers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
-public class PrefManager {
+public class PreferencesManager {
     SharedPreferences pref;
     SharedPreferences.Editor editor;
     Context _context;
@@ -15,7 +15,7 @@ public class PrefManager {
     private static final String PREF_NAME = "PlaceToGo";
     private static final String FIRST_TIME_LAUNCH = "FirstTimeLaunch";
 
-    public PrefManager(Context context) {
+    public PreferencesManager(Context context) {
         this._context = context;
         pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
         editor = pref.edit();

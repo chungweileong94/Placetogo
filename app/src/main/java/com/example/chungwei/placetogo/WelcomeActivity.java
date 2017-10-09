@@ -4,21 +4,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
+import android.os.Bundle;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v4.view.PagerAdapter;
-import android.os.Bundle;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.example.chungwei.placetogo.helpers.PreferencesManager;
 
 public class WelcomeActivity extends AppCompatActivity {
 
@@ -34,15 +34,15 @@ public class WelcomeActivity extends AppCompatActivity {
     private LinearLayout dotsLayout;
 
     //Preference declaration for "First Time Launch"
-    private PrefManager prefManager;
+    private PreferencesManager preferencesManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // Checking for first time launch
-        prefManager = new PrefManager(this);
-        if (!prefManager.isFirstTimeLaunch()) {
+        preferencesManager = new PreferencesManager(this);
+        if (!preferencesManager.isFirstTimeLaunch()) {
             launchHomeScreen();
             finish();
         }
@@ -126,7 +126,7 @@ public class WelcomeActivity extends AppCompatActivity {
     //Method that checks if this is first time launch and launch appropriate activity according to the user count.
     private void launchHomeScreen() {
 
-        prefManager.setFirstTimeLaunch(false);
+        preferencesManager.setFirstTimeLaunch(false);
 
             Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
             startActivity(intent);
