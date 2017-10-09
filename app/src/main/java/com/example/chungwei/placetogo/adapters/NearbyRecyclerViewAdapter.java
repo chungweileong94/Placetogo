@@ -65,10 +65,14 @@ public class NearbyRecyclerViewAdapter extends RecyclerView.Adapter<NearbyRecycl
             foursquareService.getVenuePhotos(new IFoursquareResponse<VenuePhotoResult>() {
                 @Override
                 public void onResponse(VenuePhotoResult result) {
-                    Photo photo = result.getResponse().getPhotos().getItems().get(0);
+                    String url = "";
 
-                    String url = photo.getPrefix() +
-                            photo.getWidth() + "x" + photo.getHeight() + photo.getSuffix();
+                    if (result.getResponse().getPhotos().getItems().size() > 0) {
+                        Photo photo = result.getResponse().getPhotos().getItems().get(0);
+
+                        url = photo.getPrefix() +
+                                photo.getWidth() + "x" + photo.getHeight() + photo.getSuffix();
+                    }
 
                     Glide.with(context)
                             .load(url)

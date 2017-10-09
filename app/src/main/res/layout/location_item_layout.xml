@@ -7,7 +7,7 @@
     android:layout_margin="8dp"
     android:layout_marginBottom="4dp"
     android:layout_marginTop="4dp"
-    android:foreground="@drawable/ripple_selector_accent"
+    android:foreground="@drawable/ripple_selector"
     android:backgroundTint="#f2f2f2"
     android:clickable="true"
     app:cardCornerRadius="10dp">
