@@ -52,16 +52,23 @@ public class NearbyRecyclerViewAdapter extends RecyclerView.Adapter<NearbyRecycl
 
         private ImageView photo_imageView;
         private TextView title_textView;
+        private TextView distance_textView;
+        private TextView address_textView;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             photo_imageView = itemView.findViewById(R.id.photo_imageView);
             title_textView = itemView.findViewById(R.id.title_textView);
+            distance_textView = itemView.findViewById(R.id.distance_textView);
+            address_textView = itemView.findViewById(R.id.address_textView);
         }
 
         public void bind(@NonNull Item item) {
             title_textView.setText(item.getVenue().getName());
+            distance_textView.setText(item.getVenue().getLocation().getDistance() + "m");
+            address_textView.setText(joinStrings(item.getVenue().getLocation().getFormattedAddress()));
+
             foursquareService.getVenuePhotos(new IFoursquareResponse<VenuePhotoResult>() {
                 @Override
                 public void onResponse(VenuePhotoResult result) {
@@ -86,6 +93,16 @@ public class NearbyRecyclerViewAdapter extends RecyclerView.Adapter<NearbyRecycl
 
                 }
             }, item.getVenue().getId(), 1);
+        }
+
+        private String joinStrings(ArrayList<String> strings) {
+            String result = "";
+
+            for (String s : strings) {
+                result += s;
+            }
+
+            return result;
         }
     }
 }
