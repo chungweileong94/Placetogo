@@ -1,5 +1,6 @@
 package com.example.chungwei.placetogo.adapters;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -50,6 +51,8 @@ public class NearbyRecyclerViewAdapter extends RecyclerView.Adapter<NearbyRecycl
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
+        private Item item;
+        private String imageURL = "";
         private ImageView photo_imageView;
         private TextView title_textView;
         private TextView distance_textView;
@@ -62,9 +65,36 @@ public class NearbyRecyclerViewAdapter extends RecyclerView.Adapter<NearbyRecycl
             title_textView = itemView.findViewById(R.id.title_textView);
             distance_textView = itemView.findViewById(R.id.distance_textView);
             address_textView = itemView.findViewById(R.id.address_textView);
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    Dialog dialog = new Dialog(view.getContext(), android.R.style.Theme_Material_Light_Dialog);
+                    dialog.setContentView(R.layout.location_popup_layout);
+                    dialog.setTitle(item.getVenue().getName());
+
+                    ImageView photo_imageView = dialog.findViewById(R.id.photo_imageView);
+                    TextView distance_textView = dialog.findViewById(R.id.distance_textView);
+                    TextView address_textView = dialog.findViewById(R.id.address_textView);
+
+                    Glide.with(context)
+                            .load(imageURL)
+                            .placeholder(R.drawable.ic_image_placeholder_gray_24dp)
+                            .centerCrop()
+                            .into(photo_imageView);
+
+                    distance_textView.setText(item.getVenue().getLocation().getDistance() + "m");
+                    address_textView.setText(joinStrings(item.getVenue().getLocation().getFormattedAddress()));
+
+                    dialog.show();
+
+                    return false;
+                }
+            });
         }
 
         public void bind(@NonNull Item item) {
+            this.item = item;
             title_textView.setText(item.getVenue().getName());
             distance_textView.setText(item.getVenue().getLocation().getDistance() + "m");
             address_textView.setText(joinStrings(item.getVenue().getLocation().getFormattedAddress()));
@@ -79,13 +109,15 @@ public class NearbyRecyclerViewAdapter extends RecyclerView.Adapter<NearbyRecycl
 
                         url = photo.getPrefix() +
                                 photo.getWidth() + "x" + photo.getHeight() + photo.getSuffix();
-                    }
 
-                    Glide.with(context)
-                            .load(url)
-                            .placeholder(R.drawable.ic_image_placeholder_gray_24dp)
-                            .centerCrop()
-                            .into(photo_imageView);
+                        imageURL = url;
+
+                        Glide.with(context)
+                                .load(url)
+                                .placeholder(R.drawable.ic_image_placeholder_gray_24dp)
+                                .centerCrop()
+                                .into(photo_imageView);
+                    }
                 }
 
                 @Override
