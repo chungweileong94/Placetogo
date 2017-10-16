@@ -43,6 +43,8 @@
     <dimen name="div_85dp">90dp</dimen>
     <dimen name="div_470dp">470dp</dimen>
     <dimen name="div_13dp">13dp</dimen>
+    <dimen name="div_400dp">400dp</dimen>
+    <dimen name="div_350dp">350dp</dimen>
 
 
     <!-- Default screen margins, per the Android Design guidelines. -->

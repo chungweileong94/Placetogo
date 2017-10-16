@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/challenge_color4">
+    android:background="@drawable/challenge_color3">
 
     <LinearLayout
         android:id="@+id/header"
@@ -28,7 +27,7 @@
             android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:fontFamily="sans-serif-condensed"
-            android:text="@string/Challenge4"
+            android:text="@string/Challenge3"
             android:textAlignment="viewStart"
             android:textColor="@android:color/white"
             android:textSize="@dimen/slide_title"
@@ -53,7 +52,7 @@
             android:layout_marginTop="10dp"
             android:fontFamily="sans-serif-condensed"
             android:gravity="center"
-            android:text="@string/Challenge4_Title"
+            android:text="@string/Challenge3_Title"
             android:textColor="@android:color/white"
             android:textSize="24sp"
             android:textStyle="bold" />
@@ -63,7 +62,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/div_200dp"
             android:background="@android:drawable/alert_dark_frame"
-            app:srcCompat="@drawable/challenge4" />
+            app:srcCompat="@drawable/challenge3" />
 
         <TextView
             android:id="@+id/textViewContent"
@@ -73,7 +72,7 @@
             android:fontFamily="sans-serif-condensed"
             android:paddingLeft="@dimen/desc_padding"
             android:paddingRight="@dimen/desc_padding"
-            android:text="@string/Challenge4_Content"
+            android:text="@string/Challenge3_Content"
             android:textAlignment="center"
             android:textColor="@android:color/white"
             android:textSize="@dimen/slide_desc" />

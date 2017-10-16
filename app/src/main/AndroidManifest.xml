@@ -20,6 +20,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <activity
+            android:name=".ChallengeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".WelcomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/WelcomeScreen">
