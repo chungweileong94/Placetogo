@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.chungwei.placetogo">
 
+    <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -17,9 +18,11 @@
         android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity
             android:name=".MainActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity android:name=".WelcomeActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/WelcomeScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

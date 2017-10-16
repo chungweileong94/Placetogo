@@ -21,7 +21,7 @@
         android:paddingStart="8dp">
 
         <LinearLayout
-            android:id="@+id/distance_layout"
+            android:id="@+id/status_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -46,7 +46,7 @@
             android:id="@+id/address_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/distance_layout"
+            android:layout_below="@id/status_layout"
             tools:text="Address Address Address Address Address Address Address" />
     </RelativeLayout>
 </LinearLayout>

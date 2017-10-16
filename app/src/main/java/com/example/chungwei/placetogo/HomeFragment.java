@@ -51,7 +51,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        //search button
+        //search button//
         view.findViewById(R.id.search_floatingActionButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

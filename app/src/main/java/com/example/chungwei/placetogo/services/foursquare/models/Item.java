@@ -43,4 +43,5 @@ public class Item implements Serializable {
     public void setReferralId(String referralId) {
         this.referralId = referralId;
     }
+
 }

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="openingHoursText">Opening Hours :</string>
+    <string name="featuresText">Features :</string>
+    <string name="reasonsText">Reasons :</string>
+    <string name="tipsText">Tips :</string>
+    <string name="closeText">CLOSE</string>
+</resources>
