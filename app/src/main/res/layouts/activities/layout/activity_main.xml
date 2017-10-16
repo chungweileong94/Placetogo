@@ -14,6 +14,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <com.github.mmin18.widget.RealtimeBlurView
+        android:id="@+id/blurLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:realtimeBlurRadius="25dp"
+        app:realtimeOverlayColor="@android:color/transparent"
+        android:visibility="gone" />
+
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
@@ -22,13 +30,5 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_main"
         app:menu="@menu/activity_main_drawer" />
-
-    <com.github.mmin18.widget.RealtimeBlurView
-        android:id="@+id/blurLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:realtimeBlurRadius="25dp"
-        app:realtimeOverlayColor="@android:color/transparent"
-        android:visibility="gone"/>
 
 </android.support.v4.widget.DrawerLayout>

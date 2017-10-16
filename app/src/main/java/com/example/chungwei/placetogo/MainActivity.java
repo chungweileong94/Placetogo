@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity
                 break;
 
             case R.id.mission_nav_item:
-                navigateFragment(MissionFragment.newInstance(), true);
+                //navigateFragment(MissionFragment.newInstance(), true);
                 break;
 
             case R.id.near_by_nav_item:
