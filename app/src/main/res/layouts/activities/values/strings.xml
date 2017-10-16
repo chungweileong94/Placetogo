@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="openingHoursText">Opening Hours :</string>
@@ -6,3 +7,31 @@
     <string name="tipsText">Tips :</string>
     <string name="closeText">CLOSE</string>
 </resources>
+=======
+<resources>
+    <string name="Challenge1">Challenge 1</string>
+    <string name="Challenge1_Title">Dinosaurs in the city</string>
+    <string name="Challenge1_Content">Well, dinosaurs is always under eye of government but above eyes of public.</string>
+    <string name="Check_In">Check In</string>
+    <string name="Challenge2">Challenge 2</string>
+    <string name="Challenge2_Title">I watch the birth and death of kings</string>
+    <string name="Challenge2_Content">I last beyond all living things\n
+                                        I am the oldest in the land\n
+                                        I am the greatest boulder, the finest sand\n
+                                        I stand above the Penang \n
+                                        Up, up it goes and yet never grows? </string>
+    <string name="Challenge3">Challenge 3</string>
+    <string name="Challenge3_Title">The Dragon?</string>
+    <string name="Challenge3_Content">   I once killed the Thunder God, although I was fallen with him.\n
+                                         My brother consumed the greatest god, while my sister was the ruler of hell.\n
+                                         I left my posterity under this cruel world, living in the shrine, while they never grows. \n
+                                         The shrine...the shrine......</string>
+    <string name="Challenge4">Challenge 4</string>
+    <string name="Challenge4_Title">The Collector</string>
+    <string name="Challenge4_Content">  I am once the barrier from enemy \n
+                                        Defending from the assault \n
+                                        Even I was retired long time ago \n
+                                        But I never ever forget to deliver the art of fight for my land\n
+                                        With every part of my body.</string>
+</resources>
+>>>>>>> origin/master
