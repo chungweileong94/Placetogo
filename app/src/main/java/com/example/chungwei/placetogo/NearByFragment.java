@@ -132,7 +132,7 @@ public class NearByFragment extends Fragment {
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setTitle("GPS is disabled");
-            builder.setMessage("Please turn on the GPS and pull to refresh again.");
+            builder.setMessage("Please turn on the GPS and enable the permission to access location.");
             builder.setPositiveButton("Go to GPS settings", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
