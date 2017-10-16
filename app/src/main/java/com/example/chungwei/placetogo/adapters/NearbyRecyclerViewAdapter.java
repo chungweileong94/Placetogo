@@ -43,7 +43,6 @@ import com.example.chungwei.placetogo.services.foursquare.models.RichStatus;
 import com.example.chungwei.placetogo.services.foursquare.models.Venue;
 import com.example.chungwei.placetogo.services.foursquare.models.Hours;
 import com.github.mmin18.widget.RealtimeBlurView;
-import com.peekandpop.shalskar.peekandpop.PeekAndPop;
 
 import java.util.ArrayList;
 

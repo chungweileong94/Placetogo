@@ -1,14 +1,12 @@
-<<<<<<< HEAD
 <?xml version="1.0" encoding="utf-8"?>
+
 <resources>
     <string name="openingHoursText">Opening Hours :</string>
     <string name="featuresText">Features :</string>
     <string name="reasonsText">Reasons :</string>
     <string name="tipsText">Tips :</string>
     <string name="closeText">CLOSE</string>
-</resources>
-=======
-<resources>
+
     <string name="Challenge1">Challenge 1</string>
     <string name="Challenge1_Title">Dinosaurs in the city</string>
     <string name="Challenge1_Content">Well, dinosaurs is always under eye of government but above eyes of public.</string>
@@ -34,4 +32,4 @@
                                         But I never ever forget to deliver the art of fight for my land\n
                                         With every part of my body.</string>
 </resources>
->>>>>>> origin/master
+

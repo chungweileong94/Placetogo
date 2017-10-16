@@ -29,7 +29,7 @@
         android:weightSum="100">
 
         <LinearLayout
-            android:id="@+id/status_distant_layout"
+            android:id="@+id/distant_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="8dp"
@@ -54,7 +54,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/status_status_layout"
+            android:id="@+id/status_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="8dp"
@@ -90,7 +90,6 @@
             android:id="@+id/address_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/status_layout"
             android:visibility="gone"
             tools:text="Address Address Address Address Address Address Address" />
     </RelativeLayout>
