@@ -14,6 +14,7 @@ public class PreferencesManager {
     // Shared preferences file name
     private static final String PREF_NAME = "PlaceToGo";
     private static final String FIRST_TIME_LAUNCH = "FirstTimeLaunch";
+    private static final String CHALLENGE_CLEAR = "ChallengeClear";
 
     public PreferencesManager(Context context) {
         this._context = context;
@@ -29,5 +30,12 @@ public class PreferencesManager {
     public boolean isFirstTimeLaunch() {
         return pref.getBoolean(FIRST_TIME_LAUNCH, true);
     }
+
+    public void setChallengeClear(int challengeClear){
+        editor.putInt(CHALLENGE_CLEAR,challengeClear);
+        editor.commit();
+    }
+
+    public int getChallengeClear(){return pref.getInt(CHALLENGE_CLEAR,0);}
 
 }

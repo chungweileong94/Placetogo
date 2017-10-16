@@ -1,5 +1,6 @@
 package com.example.chungwei.placetogo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -65,14 +66,9 @@ public class HomeFragment extends Fragment {
         view.findViewById(R.id.mission_cardView).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AppCompatActivity activity = (AppCompatActivity) view.getContext();
-                activity.getSupportFragmentManager()
-                        .beginTransaction()
-                        .setCustomAnimations(R.anim.fade_in_animation, R.anim.fade_out_animation,
-                                R.anim.fade_in_animation, R.anim.fade_out_animation)
-                        .replace(R.id.content_frameLayout, MissionFragment.newInstance())
-                        .addToBackStack(MainActivity.fragment_nav_backstack_tag)
-                        .commit();
+                Intent intent = new Intent(getActivity().getApplicationContext(),ChallengeActivity.class);
+                startActivity(intent);
+
             }
         });
 
