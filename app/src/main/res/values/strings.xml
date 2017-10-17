@@ -44,10 +44,10 @@
     <string name="home_nearby_msg">Need recommendation?</string>
 
 
-    <string name="openingHoursText">Opening Hours :</string>
-    <string name="featuresText">Features :</string>
-    <string name="reasonsText">Reasons :</string>
-    <string name="tipsText">Tips :</string>
+    <string name="openingHoursText">Opening Hours</string>
+    <string name="featuresText">Features</string>
+    <string name="reasonsText">Reasons</string>
+    <string name="tipsText">Tips</string>
     <string name="closeText">CLOSE</string>
 
     <string name="Challenge1">Challenge 1</string>
