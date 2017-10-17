@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
+import com.example.chungwei.placetogo.MapsActivity;
 import com.example.chungwei.placetogo.R;
 import com.example.chungwei.placetogo.services.foursquare.FoursquareService;
 import com.example.chungwei.placetogo.services.foursquare.IFoursquareResponse;
@@ -138,6 +139,26 @@ public class NearbyRecyclerViewAdapter extends RecyclerView.Adapter<NearbyRecycl
                             } else {
                                 Snackbar.make(view, "Invalid Phone Number", Snackbar.LENGTH_LONG).setAction("Close", null).show();
                             }
+                        }
+                    });
+
+
+                    imageViewNavigation.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            String place = item.getVenue().getName();
+
+                            double lat = item.getVenue().getLocation().getLat();
+                            double lng = item.getVenue().getLocation().getLng();
+
+                            //Launch map activity together with the location marked on the map.
+                            Intent i = new Intent(view.getContext(), MapsActivity.class);
+                            i.putExtra("placeName", place);
+                            i.putExtra("place_long", lng);
+                            i.putExtra("place_lati", lat);
+                            view.getContext().startActivity(i);
+
                         }
                     });
 
