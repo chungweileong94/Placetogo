@@ -1,122 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clickable="true"
-    android:foreground="@drawable/ripple_selector_gray"
-    android:orientation="vertical">
+    android:foreground="@drawable/ripple_selector_gray">
 
-    <TextView
-        android:id="@+id/title_textView"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/title_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            tools:text="Title" />
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/imageCardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardElevation="4dp">
+
+            <com.example.chungwei.placetogo.customViews.LocationImageView
+                android:id="@+id/photo_imageView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:src="@drawable/ic_image_placeholder_gray_24dp" />
+        </android.support.v7.widget.CardView>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="12dp">
+
+            <LinearLayout
+                android:id="@+id/status_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_near_me_black_24dp" />
+
+                <TextView
+                    android:id="@+id/distance_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="8dp"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                    tools:text="150km" />
+            </LinearLayout>
+
+            <!--<TextView-->
+            <!--android:id="@+id/address_textView"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@id/status_layout"-->
+            <!--tools:text="Address Address Address Address Address Address Address" />-->
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/line" />
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/ratingBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-        tools:text="Title" />
+        android:src="@android:color/transparent"
+        app:backgroundTint="@color/colorPrimary"
+        app:elevation="8dp"
+        app:fabSize="normal"
+        app:layout_anchor="@id/imageCardView"
+        app:layout_anchorGravity="bottom|end" />
 
-    <com.example.chungwei.placetogo.customViews.LocationImageView
-        android:id="@+id/photo_imageView"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/ratingTextView"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:src="@drawable/ic_image_placeholder_gray_24dp" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="12dp">
-
-        <LinearLayout
-            android:id="@+id/status_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_near_me_black_24dp" />
-
-            <TextView
-                android:id="@+id/distance_textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="8dp"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-                tools:text="150km" />
-        </LinearLayout>
-
-        <!--<TextView-->
-        <!--android:id="@+id/address_textView"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_below="@id/status_layout"-->
-        <!--tools:text="Address Address Address Address Address Address Address" />-->
-    </RelativeLayout>
-    <!--<LinearLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:orientation="horizontal"-->
-    <!--android:paddingTop="@dimen/div_10dp"-->
-    <!--android:weightSum="100">-->
-
-    <!--<LinearLayout-->
-    <!--android:id="@+id/distant_layout"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:layout_marginBottom="8dp"-->
-    <!--android:layout_weight="50"-->
-    <!--android:gravity="center"-->
-    <!--android:orientation="horizontal">-->
-
-    <!--<ImageView-->
-    <!--android:id="@+id/imageView"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:src="@drawable/ic_near_me_black_24dp" />-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/distance_textView"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_gravity="center_vertical"-->
-    <!--android:layout_marginStart="8dp"-->
-    <!--android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"-->
-    <!--tools:text="150km" />-->
-    <!--</LinearLayout>-->
-
-    <!--<LinearLayout-->
-    <!--android:id="@+id/status_layout"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:layout_marginBottom="8dp"-->
-    <!--android:layout_weight="50"-->
-    <!--android:gravity="center"-->
-    <!--android:orientation="horizontal">-->
-
-    <!--<ImageView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:src="@drawable/ic_status" />-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/status_textView"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_gravity="center_vertical"-->
-    <!--android:layout_marginStart="8dp"-->
-    <!--android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"-->
-    <!--tools:text="150km" />-->
-    <!--</LinearLayout>-->
-    <!--</LinearLayout>-->
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/line" />
-</LinearLayout>
+        android:layout_gravity="center"
+        android:elevation="8dp"
+        android:fontFamily="sans-serif-condensed"
+        android:text="@android:string/ok"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        app:layout_anchor="@id/ratingBack"
+        app:layout_anchorGravity="center_vertical|center_horizontal" />
+</android.support.design.widget.CoordinatorLayout>

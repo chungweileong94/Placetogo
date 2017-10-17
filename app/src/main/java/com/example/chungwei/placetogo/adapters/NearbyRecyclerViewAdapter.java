@@ -3,11 +3,14 @@ package com.example.chungwei.placetogo.adapters;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Color;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,14 +20,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
 import com.example.chungwei.placetogo.R;
-import com.example.chungwei.placetogo.helpers.AllRounderClass;
 import com.example.chungwei.placetogo.services.foursquare.FoursquareService;
 import com.example.chungwei.placetogo.services.foursquare.IFoursquareResponse;
-import com.example.chungwei.placetogo.services.foursquare.models.Hours;
 import com.example.chungwei.placetogo.services.foursquare.models.Item;
 import com.example.chungwei.placetogo.services.foursquare.models.Photo;
 import com.example.chungwei.placetogo.services.foursquare.models.VenuePhotoResult;
@@ -69,9 +71,8 @@ public class NearbyRecyclerViewAdapter extends RecyclerView.Adapter<NearbyRecycl
         private ImageView photo_imageView;
         private TextView title_textView;
         private TextView distance_textView;
-        private TextView address_textView;
+        private TextView ratingTextView;
         private Dialog dialog;
-
 
         public ViewHolder(final View itemView) {
             super(itemView);
@@ -79,25 +80,18 @@ public class NearbyRecyclerViewAdapter extends RecyclerView.Adapter<NearbyRecycl
             photo_imageView = itemView.findViewById(R.id.photo_imageView);
             title_textView = itemView.findViewById(R.id.title_textView);
             distance_textView = itemView.findViewById(R.id.distance_textView);
-            //address_textView = itemView.findViewById(R.id.address_textView);
-            //status_textView = itemView.findViewById(R.id.status_textView);
-
+            ratingTextView = itemView.findViewById(R.id.ratingTextView);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
-                    final AllRounderClass arc = new AllRounderClass();
-                    final Hours hour = item.getVenue().getHours();
-
                     final RealtimeBlurView blurView = ((Activity) view.getContext()).findViewById(R.id.blurLayout);
                     blurView.setVisibility(View.VISIBLE);
 
                     dialog = new Dialog(view.getContext(), android.R.style.Theme_Material_Light_Dialog);
-
-                    dialog.setCancelable(false);
                     dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                    dialog.setContentView(R.layout.pop_up_dialog);
+                    dialog.setContentView(R.layout.location_pop_up_dialog);
+                    dialog.getWindow().getAttributes().windowAnimations = R.anim.fade_in_animation;
 
                     TextView textViewPlaceName = dialog.findViewById(R.id.textViewPlaceName);
                     TextView textViewOpenHours = dialog.findViewById(R.id.textViewOpenHours);
@@ -107,19 +101,14 @@ public class NearbyRecyclerViewAdapter extends RecyclerView.Adapter<NearbyRecycl
                     ImageView imageViewNavigation = dialog.findViewById(R.id.imageViewNavigation);
                     ImageView imageViewPhone = dialog.findViewById(R.id.imageViewPhone);
                     Button buttonCancel = dialog.findViewById(R.id.buttonCancel);
-                    FloatingActionButton ratingBack = dialog.findViewById(R.id.ratingBack);
                     LinearLayout operationHoursLayout = dialog.findViewById(R.id.operationHoursLayout);
 
                     textViewPlaceName.setText(item.getVenue().getName());
                     textViewRatingText.setText(String.valueOf(item.getVenue().getRating()));
-                    String color = "#" + item.getVenue().getRatingColor();
-                    ratingBack.setBackgroundColor(Color.parseColor(color));
 
-                    if (hour == null) {
-                        textViewOpenHours.setText("-");
+                    if (item.getVenue().getHours() == null) {
                         operationHoursLayout.setVisibility(View.GONE);
                     } else {
-
                         String richStatus = item.getVenue().getHours().getStatus();
 
                         if (richStatus == null) {
@@ -129,42 +118,32 @@ public class NearbyRecyclerViewAdapter extends RecyclerView.Adapter<NearbyRecycl
                             textViewOpenHours.setText(richStatus);
                         }
                     }
+
                     String tips = String.valueOf(item.getTips().get(0).getText());
-                    if (tips.isEmpty() || tips.length() < 0) {
-                        textViewTip.setText("No tips provided.");
+                    if (tips.isEmpty() || tips.trim().length() < 0) {
+                        textViewTip.setText(R.string.no_tips_provided);
                     } else {
                         textViewTip.setText(tips);
                     }
 
-                    imageViewNavigation.setOnLongClickListener(new View.OnLongClickListener() {
+                    imageViewPhone.setOnClickListener(new View.OnClickListener() {
                         @Override
-                        public boolean onLongClick(View view) {
-                            Log.i("navigation", "working");
-                            return false;
-                        }
-                    });
-
-                    imageViewPhone.setOnLongClickListener(new View.OnLongClickListener() {
-                        @Override
-                        public boolean onLongClick(View view) {
+                        public void onClick(View view) {
 
                             String phoneNumber = String.valueOf(item.getVenue().getContact().getPhone());
                             String shopName = item.getVenue().getName();
 
                             if (phoneNumber != null && phoneNumber.length() > 8) {
-                                arc.callcaller(itemView.getContext(), phoneNumber, shopName);
+                                callCaller(itemView.getContext(), phoneNumber, shopName);
                             } else {
-                                arc.SnackbarMessage(view, "Invalid Phone Number", "CLOSE");
+                                Snackbar.make(view, "Invalid Phone Number", Snackbar.LENGTH_LONG).setAction("Close", null).show();
                             }
-
-                            return false;
                         }
                     });
 
                     buttonCancel.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            blurView.setVisibility(View.GONE);
                             dialog.dismiss();
                         }
                     });
@@ -175,7 +154,13 @@ public class NearbyRecyclerViewAdapter extends RecyclerView.Adapter<NearbyRecycl
                             .centerCrop()
                             .into(imageViewPlace);
 
-                    dialog.getWindow().getAttributes().windowAnimations = R.anim.fade_in_animation;
+                    dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialogInterface) {
+                            blurView.setVisibility(View.GONE);
+                        }
+                    });
+
                     dialog.show();
 
                     WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
@@ -187,20 +172,18 @@ public class NearbyRecyclerViewAdapter extends RecyclerView.Adapter<NearbyRecycl
                     window.setAttributes(lp);
                 }
             });
-
-
         }
 
         public void bind(@NonNull Item item) {
             this.item = item;
             title_textView.setText(item.getVenue().getName());
             distance_textView.setText(item.getVenue().getLocation().getDistance() + "m");
-            //address_textView.setText(joinStrings(item.getVenue().getLocation().getFormattedAddress()));
+            ratingTextView.setText(String.valueOf(item.getVenue().getRating()));
 
             foursquareService.getVenuePhotos(new IFoursquareResponse<VenuePhotoResult>() {
                 @Override
                 public void onResponse(VenuePhotoResult result) {
-                    String url = "";
+                    String url;
 
                     if (result.getResponse().getPhotos().getItems().size() > 0) {
                         Photo photo = result.getResponse().getPhotos().getItems().get(0);
@@ -223,6 +206,23 @@ public class NearbyRecyclerViewAdapter extends RecyclerView.Adapter<NearbyRecycl
 
                 }
             }, item.getVenue().getId(), 1);
+        }
+
+        private void callCaller(Context context, String phoneNumber, String contactName) {
+            final int REQUEST_CALL_CONTACTS = 456;
+
+            if (ActivityCompat.checkSelfPermission(context, android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions((Activity) context, new String[]{android.Manifest.permission.CALL_PHONE}, REQUEST_CALL_CONTACTS);
+                Snackbar.make(((Activity) context).findViewById(android.R.id.content), "Phone permission required.", Snackbar.LENGTH_LONG)
+                        .setAction("CLOSE", null)
+                        .show();
+            } else {
+                ActivityCompat.requestPermissions((Activity) context, new String[]{android.Manifest.permission.CALL_PHONE}, REQUEST_CALL_CONTACTS);
+                Intent intent = new Intent(Intent.ACTION_CALL);
+                intent.setData(Uri.parse("tel:" + phoneNumber));
+                context.startActivity(intent);
+                Toast.makeText(context, "Calling " + contactName, Toast.LENGTH_LONG).show();
+            }
         }
 
         private String joinStrings(ArrayList<String> strings) {
