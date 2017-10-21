@@ -17,7 +17,7 @@ public class APIAIService {
     private AIService aiService;
 
     public APIAIService(@NonNull Context context, @NonNull AIListener listener) {
-        final AIConfiguration config = new AIConfiguration("PLEASE_REPLACE_WITH_ACCESS_TOKEN",
+        final AIConfiguration config = new AIConfiguration("9a2c881106a4484b91080d58db90e18c",
                 AIConfiguration.SupportedLanguages.English,
                 AIConfiguration.RecognitionEngine.System);
 
