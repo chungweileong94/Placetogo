@@ -4,18 +4,14 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ScrollView;
-import android.widget.Toast;
 
 import com.example.chungwei.placetogo.services.apiai.APIAIService;
 
@@ -25,7 +21,7 @@ import ai.api.model.AIError;
 import ai.api.model.AIResponse;
 
 
-public class HomeFragment extends Fragment implements AIListener{
+public class HomeFragment extends Fragment implements AIListener {
     private APIAIService apiaiService;
     //private static final int RECORD_AUDIO_PERMISSION = 0;
 
@@ -41,7 +37,7 @@ public class HomeFragment extends Fragment implements AIListener{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        apiaiService = new APIAIService(getContext(),this);
+        apiaiService = new APIAIService(getContext(), this);
     }
 
     @Override
@@ -71,7 +67,6 @@ public class HomeFragment extends Fragment implements AIListener{
         });
 
 
-
         //search button//
         view.findViewById(R.id.search_floatingActionButton).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,7 +80,7 @@ public class HomeFragment extends Fragment implements AIListener{
         view.findViewById(R.id.mission_cardView).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity().getApplicationContext(),ChallengeActivity.class);
+                Intent intent = new Intent(getActivity().getApplicationContext(), ChallengeActivity.class);
                 startActivity(intent);
 
             }
@@ -124,9 +119,9 @@ public class HomeFragment extends Fragment implements AIListener{
             @Override
             protected AIResponse doInBackground(String... strings) {
 
-                AIResponse result=null;
+                AIResponse result = null;
                 try {
-                    for(int i = 0; i<2;i++){
+                    for (int i = 0; i < 2; i++) {
                         publishProgress(50);
                         result = apiaiService.textRequest(strings[0]);
                     }
@@ -147,23 +142,27 @@ public class HomeFragment extends Fragment implements AIListener{
             @Override
             protected void onPostExecute(AIResponse aiResponse) {
                 //TODO
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                switch (aiResponse.getResult().getAction().toString()){
-                    case "maps.nearby_location" :
-                        builder.setMessage("Here is what I can get for you!");
-                        builder.create().show();
-                        nearByFragment(); break;
-                    case "maps.current_location":
-                        builder.setMessage("Show current location");
-                        builder.create().show();
+                Intent intent = new Intent(getContext(), SearchActivity.class);
+                startActivity(intent);
+
+//                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                switch (aiResponse.getResult().getAction().toString()) {
+                    case APIAIService.NEARBY_LOCATION:
+//                        builder.setMessage("Here is what I can get for you!");
+//                        builder.create().show();
+//                        nearByFragment();
                         break;
-                    case "maps.search":
-                        builder.setMessage("Places : "+aiResponse.getResult().getParameters().get("Places").getAsString());
-                        builder.create().show();
+                    case APIAIService.CURRENT_LOCATION:
+//                        builder.setMessage("Show current location");
+//                        builder.create().show();
+                        break;
+                    case APIAIService.SEARCH:
+//                        builder.setMessage("Places : " + aiResponse.getResult().getParameters().get("Places").getAsString());
+//                        builder.create().show();
                         break;
                     default:
-                        builder.setMessage("I do not understand what you said.");
-                        builder.create().show();
+//                        builder.setMessage("I do not understand what you said.");
+//                        builder.create().show();
                 }
             }
         };
@@ -171,17 +170,17 @@ public class HomeFragment extends Fragment implements AIListener{
         task.execute(text);
     }
 
-    public void nearByFragment(){
-        //TODO --fix the function
-        AppCompatActivity activity = (AppCompatActivity) getView().findViewById(R.id.nearby_cardView).getContext();
-        activity.getSupportFragmentManager()
-                .beginTransaction()
-                .setCustomAnimations(R.anim.fade_in_animation, R.anim.fade_out_animation,
-                        R.anim.fade_in_animation, R.anim.fade_out_animation)
-                .replace(R.id.content_frameLayout, NearByFragment.newInstance())
-                .addToBackStack(MainActivity.fragment_nav_backstack_tag)
-                .commit();
-    }
+//    public void nearByFragment() {
+//        //TODO --fix the function
+//        AppCompatActivity activity = (AppCompatActivity) getView().findViewById(R.id.nearby_cardView).getContext();
+//        activity.getSupportFragmentManager()
+//                .beginTransaction()
+//                .setCustomAnimations(R.anim.fade_in_animation, R.anim.fade_out_animation,
+//                        R.anim.fade_in_animation, R.anim.fade_out_animation)
+//                .replace(R.id.content_frameLayout, NearByFragment.newInstance())
+//                .addToBackStack(MainActivity.fragment_nav_backstack_tag)
+//                .commit();
+//    }
 
     @Override
     public void onResult(AIResponse result) {

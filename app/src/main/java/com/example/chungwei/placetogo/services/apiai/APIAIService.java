@@ -13,6 +13,10 @@ import ai.api.model.AIResponse;
 
 public class APIAIService {
 
+    public static final String NEARBY_LOCATION = "maps.nearby_location";
+    public static final String CURRENT_LOCATION = "maps.current_location";
+    public static final String SEARCH = "maps.search";
+
     private AIDataService aiDataService;
     private AIService aiService;
 
