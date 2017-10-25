@@ -4,12 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:background="#000"
     tools:context="com.example.chungwei.placetogo.ChallengeActivity">
 
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <com.github.mmin18.widget.RealtimeBlurView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        app:realtimeOverlayColor="@android:color/transparent" />
 
     <LinearLayout
         android:id="@+id/layoutDots"
@@ -28,6 +35,5 @@
         android:background="@android:color/white"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="0dp" />
-
 
 </RelativeLayout>

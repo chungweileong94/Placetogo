@@ -7,11 +7,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ScrollView;
 
 import com.example.chungwei.placetogo.services.apiai.APIAIService;
 
@@ -54,25 +52,28 @@ public class HomeFragment extends Fragment implements AIListener {
 
 
         //disable auto focus
-        ScrollView scrollView = view.findViewById(R.id.content_scrollView);
-        scrollView.setDescendantFocusability(ViewGroup.FOCUS_BEFORE_DESCENDANTS);
-        scrollView.setFocusable(true);
-        scrollView.setFocusableInTouchMode(true);
-        scrollView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                view.requestFocusFromTouch();
-                return false;
-            }
-        });
+//        ScrollView scrollView = view.findViewById(R.id.content_scrollView);
+//        scrollView.setDescendantFocusability(ViewGroup.FOCUS_BEFORE_DESCENDANTS);
+//        scrollView.setFocusable(true);
+//        scrollView.setFocusableInTouchMode(true);
+//        scrollView.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View view, MotionEvent motionEvent) {
+//                view.requestFocusFromTouch();
+//                return false;
+//            }
+//        });
 
 
         //search button//
         view.findViewById(R.id.search_floatingActionButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String text = editText.getText().toString();
-                SendRequest(text);
+                String text = editText.getText().toString().trim();
+
+                if (!text.isEmpty()) {
+                    SendRequest(text);
+                }
             }
         });
 
@@ -87,19 +88,19 @@ public class HomeFragment extends Fragment implements AIListener {
         });
 
         //nearby card view on click
-        view.findViewById(R.id.nearby_cardView).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AppCompatActivity activity = (AppCompatActivity) view.getContext();
-                activity.getSupportFragmentManager()
-                        .beginTransaction()
-                        .setCustomAnimations(R.anim.fade_in_animation, R.anim.fade_out_animation,
-                                R.anim.fade_in_animation, R.anim.fade_out_animation)
-                        .replace(R.id.content_frameLayout, NearByFragment.newInstance())
-                        .addToBackStack(MainActivity.fragment_nav_backstack_tag)
-                        .commit();
-            }
-        });
+//        view.findViewById(R.id.nearby_cardView).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                AppCompatActivity activity = (AppCompatActivity) view.getContext();
+//                activity.getSupportFragmentManager()
+//                        .beginTransaction()
+//                        .setCustomAnimations(R.anim.fade_in_animation, R.anim.fade_out_animation,
+//                                R.anim.fade_in_animation, R.anim.fade_out_animation)
+//                        .replace(R.id.content_frameLayout, NearByFragment.newInstance())
+//                        .addToBackStack(MainActivity.fragment_nav_backstack_tag)
+//                        .commit();
+//            }
+//        });
 
         return view;
     }
@@ -141,16 +142,17 @@ public class HomeFragment extends Fragment implements AIListener {
 
             @Override
             protected void onPostExecute(AIResponse aiResponse) {
-                //TODO
-                Intent intent = new Intent(getContext(), SearchActivity.class);
-                startActivity(intent);
-
 //                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 switch (aiResponse.getResult().getAction().toString()) {
                     case APIAIService.NEARBY_LOCATION:
-//                        builder.setMessage("Here is what I can get for you!");
-//                        builder.create().show();
-//                        nearByFragment();
+                        AppCompatActivity activity = (AppCompatActivity) getContext();
+                        activity.getSupportFragmentManager()
+                                .beginTransaction()
+                                .setCustomAnimations(R.anim.fade_in_animation, R.anim.fade_out_animation,
+                                        R.anim.fade_in_animation, R.anim.fade_out_animation)
+                                .replace(R.id.content_frameLayout, NearByFragment.newInstance())
+                                .addToBackStack(MainActivity.fragment_nav_backstack_tag)
+                                .commit();
                         break;
                     case APIAIService.CURRENT_LOCATION:
 //                        builder.setMessage("Show current location");

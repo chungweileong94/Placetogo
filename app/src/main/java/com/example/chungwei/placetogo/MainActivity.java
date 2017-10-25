@@ -1,5 +1,6 @@
 package com.example.chungwei.placetogo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -62,14 +63,12 @@ public class MainActivity extends AppCompatActivity
                 break;
 
             case R.id.mission_nav_item:
-                //navigateFragment(MissionFragment.newInstance(), true);
+                Intent intent = new Intent(this, ChallengeActivity.class);
+                startActivity(intent);
                 break;
 
             case R.id.near_by_nav_item:
                 navigateFragment(NearByFragment.newInstance(), true);
-                break;
-
-            case R.id.history_nav_item:
                 break;
 
             case R.id.settings_nav_item:
