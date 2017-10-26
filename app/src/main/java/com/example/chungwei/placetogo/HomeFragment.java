@@ -183,18 +183,6 @@ public class HomeFragment extends Fragment implements AIListener {
         task.execute(text);
     }
 
-//    public void nearByFragment() {
-//        //TODO --fix the function
-//        AppCompatActivity activity = (AppCompatActivity) getView().findViewById(R.id.nearby_cardView).getContext();
-//        activity.getSupportFragmentManager()
-//                .beginTransaction()
-//                .setCustomAnimations(R.anim.fade_in_animation, R.anim.fade_out_animation,
-//                        R.anim.fade_in_animation, R.anim.fade_out_animation)
-//                .replace(R.id.content_frameLayout, NearByFragment.newInstance())
-//                .addToBackStack(MainActivity.fragment_nav_backstack_tag)
-//                .commit();
-//    }
-
     @Override
     public void onResult(AIResponse result) {
         //TODO same with the search button, try make a function :) Happy coding

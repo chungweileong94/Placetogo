@@ -14,6 +14,10 @@
             android:id="@+id/near_by_nav_item"
             android:icon="@drawable/ic_near_me_black_24dp"
             android:title="@string/near_by" />
+        <item
+            android:id="@+id/achievement_nav_item"
+            android:icon="@drawable/ic_trophy"
+            android:title="@string/achievement" />
     </group>
 
     <group android:checkableBehavior="none">

@@ -71,6 +71,10 @@ public class MainActivity extends AppCompatActivity
                 navigateFragment(NearByFragment.newInstance(), true);
                 break;
 
+            case R.id.achievement_nav_item:
+                navigateFragment(AchievementFragment.newInstance(), true);
+                break;
+
             case R.id.settings_nav_item:
                 break;
         }
