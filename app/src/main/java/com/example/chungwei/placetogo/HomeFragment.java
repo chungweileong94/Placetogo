@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import com.example.chungwei.placetogo.services.TTS;
 import com.example.chungwei.placetogo.services.apiai.APIAIService;
 
 import ai.api.AIListener;
@@ -43,6 +44,7 @@ public class HomeFragment extends Fragment implements AIListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         apiaiService = new APIAIService(getContext(), this);
+        TTS.init(getContext());
     }
 
     @Override
@@ -206,6 +208,7 @@ public class HomeFragment extends Fragment implements AIListener {
                         .replace(R.id.content_frameLayout, NearByFragment.newInstance())
                         .addToBackStack(MainActivity.fragment_nav_backstack_tag)
                         .commit();
+                TTS.speak("Searching for nearby location for you!");
                 break;
             case APIAIService.CURRENT_LOCATION:
 //                        builder.setMessage("Show current location");
