@@ -59,7 +59,7 @@
             android:name=".SearchActivity"
             android:label="@string/title_activity_search"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

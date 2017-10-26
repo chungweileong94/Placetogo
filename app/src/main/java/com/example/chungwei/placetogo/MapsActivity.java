@@ -18,6 +18,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import static android.view.View.OnClickListener;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     //Declaration for the google map.
@@ -38,13 +40,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         //Floating icon declaration for the marker and map type.
-        marker = (FloatingActionButton) findViewById(R.id.markerposition);
-        type = (FloatingActionButton) findViewById(R.id.maptype);
+        marker = findViewById(R.id.markerposition);
+        type = findViewById(R.id.maptype);
         //Programmatically clicking the marker button
         marker.performClick();
 
         //Marker floating button declaration
-        marker.setOnClickListener(new View.OnClickListener() {
+        marker.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 onMapReady(mMap);
@@ -52,45 +54,38 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
 
         //Map type floating button declaration
-        type.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        type.setOnClickListener(view -> {
 
-                //If else to change the map type.
-                if(maptypevalue == 0){
-                    mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-                    maptypevalue=1;
-                    Snackbar snackbar = Snackbar
-                            .make(view, "Map is now changed to NORMAL type.", Snackbar.LENGTH_SHORT);
-                    snackbar.show();
-                }
-                else if(maptypevalue == 1){
-                    mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-                    maptypevalue=2;
-                    Snackbar snackbar = Snackbar
-                            .make(view, "Map is now changed to HYBRID type.", Snackbar.LENGTH_SHORT);
-                    snackbar.show();
-                }
-                else if(maptypevalue == 2){
-                    mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-                    maptypevalue=3;
-                    Snackbar snackbar = Snackbar
-                            .make(view, "Map is now changed to SATELLITE type.", Snackbar.LENGTH_SHORT);
-                    snackbar.show();
-                }
-                else if(maptypevalue == 3){
-                    mMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
-                    maptypevalue=0;
-                    Snackbar snackbar = Snackbar
-                            .make(view, "Map is now changed to TERRAIN type.", Snackbar.LENGTH_SHORT);
-                    snackbar.show();
-                }
-                else{
-                    mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-                    Snackbar snackbar = Snackbar
-                            .make(view, "No changes", Snackbar.LENGTH_SHORT);
-                    snackbar.show();
-                }
+            //If else to change the map type.
+            if (maptypevalue == 0) {
+                mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                maptypevalue = 1;
+                Snackbar snackbar = Snackbar
+                        .make(view, "Map is now changed to NORMAL type.", Snackbar.LENGTH_SHORT);
+                snackbar.show();
+            } else if (maptypevalue == 1) {
+                mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+                maptypevalue = 2;
+                Snackbar snackbar = Snackbar
+                        .make(view, "Map is now changed to HYBRID type.", Snackbar.LENGTH_SHORT);
+                snackbar.show();
+            } else if (maptypevalue == 2) {
+                mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+                maptypevalue = 3;
+                Snackbar snackbar = Snackbar
+                        .make(view, "Map is now changed to SATELLITE type.", Snackbar.LENGTH_SHORT);
+                snackbar.show();
+            } else if (maptypevalue == 3) {
+                mMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+                maptypevalue = 0;
+                Snackbar snackbar = Snackbar
+                        .make(view, "Map is now changed to TERRAIN type.", Snackbar.LENGTH_SHORT);
+                snackbar.show();
+            } else {
+                mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                Snackbar snackbar = Snackbar
+                        .make(view, "No changes", Snackbar.LENGTH_SHORT);
+                snackbar.show();
             }
         });
     }

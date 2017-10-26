@@ -1,13 +1,14 @@
 package com.example.chungwei.placetogo;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -30,6 +31,8 @@ import ai.api.model.AIResponse;
 public class HomeFragment extends Fragment implements AIListener {
     private APIAIService apiaiService;
     private static final int RECORD_AUDIO_PERMISSION = 0;
+
+    private FloatingActionButton search_floatingActionButton;
 
     public HomeFragment() {
 
@@ -74,49 +77,33 @@ public class HomeFragment extends Fragment implements AIListener {
 //        });
 
 
-        //search button//
-        view.findViewById(R.id.search_floatingActionButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                String text = editText.getText().toString().trim();
-//
-//                if (!text.isEmpty()) {
-//                    SendRequest(text);
-//                }
-                checkAudioRecordPermission();
-                apiaiService.startListening();
+        //search button
+        search_floatingActionButton = view.findViewById(R.id.search_floatingActionButton);
+        search_floatingActionButton.setOnClickListener(v -> {
+            String text = editText.getText().toString().trim();
+
+            if (!text.isEmpty()) {
+                SendRequest(text);
             }
+        });
+
+        search_floatingActionButton.setOnLongClickListener(v -> {
+            checkAudioRecordPermission();
+            apiaiService.startListening();
+            return true;
         });
 
         //challenge card view on click
-        view.findViewById(R.id.mission_cardView).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity().getApplicationContext(), ChallengeActivity.class);
-                startActivity(intent);
-
-            }
+        view.findViewById(R.id.mission_cardView).setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity().getApplicationContext(), ChallengeActivity.class);
+            startActivity(intent);
         });
-
-        //nearby card view on click
-//        view.findViewById(R.id.nearby_cardView).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                AppCompatActivity activity = (AppCompatActivity) view.getContext();
-//                activity.getSupportFragmentManager()
-//                        .beginTransaction()
-//                        .setCustomAnimations(R.anim.fade_in_animation, R.anim.fade_out_animation,
-//                                R.anim.fade_in_animation, R.anim.fade_out_animation)
-//                        .replace(R.id.content_frameLayout, NearByFragment.newInstance())
-//                        .addToBackStack(MainActivity.fragment_nav_backstack_tag)
-//                        .commit();
-//            }
-//        });
 
         return view;
     }
 
     private void SendRequest(String text) {
+        @SuppressLint("StaticFieldLeak")
         AsyncTask<String, Integer, AIResponse> task = new AsyncTask<String, Integer, AIResponse>() {
             ProgressDialog dialog;
 
@@ -154,7 +141,7 @@ public class HomeFragment extends Fragment implements AIListener {
             @Override
             protected void onPostExecute(AIResponse aiResponse) {
 //                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                switch (aiResponse.getResult().getAction().toString()) {
+                switch (aiResponse.getResult().getAction()) {
                     case APIAIService.NEARBY_LOCATION:
                         AppCompatActivity activity = (AppCompatActivity) getContext();
                         activity.getSupportFragmentManager()
@@ -186,7 +173,7 @@ public class HomeFragment extends Fragment implements AIListener {
     @Override
     public void onResult(AIResponse result) {
         //TODO same with the search button, try make a function :) Happy coding
-        switch (result.getResult().getAction().toString()) {
+        switch (result.getResult().getAction()) {
             case APIAIService.NEARBY_LOCATION:
                 AppCompatActivity activity = (AppCompatActivity) getContext();
                 activity.getSupportFragmentManager()
@@ -209,7 +196,7 @@ public class HomeFragment extends Fragment implements AIListener {
             default:
 //                        builder.setMessage("I do not understand what you said.");
 //                        builder.create().show();
-    }
+        }
     }
 
     @Override
@@ -225,11 +212,8 @@ public class HomeFragment extends Fragment implements AIListener {
     @Override
     public void onListeningStarted() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                apiaiService.stopListening();
-            }
+        builder.setPositiveButton("Cancel", (d, w) -> {
+            apiaiService.stopListening();
         });
         builder.setMessage("Listening");
         builder.create().show();

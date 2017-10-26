@@ -2,7 +2,6 @@ package com.example.chungwei.placetogo;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -76,12 +75,7 @@ public class NearByFragment extends Fragment {
 
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
 
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                loadNearByLocation();
-            }
-        });
+        swipeRefreshLayout.setOnRefreshListener(this::loadNearByLocation);
 
         loadNearByLocation();
 
@@ -129,16 +123,13 @@ public class NearByFragment extends Fragment {
             return;
         }
 
-        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+        if (!locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setTitle("GPS is disabled");
             builder.setMessage("Please turn on the GPS and enable the permission to access location.");
-            builder.setPositiveButton("Go to GPS settings", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    context.startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-                    dialogInterface.dismiss();
-                }
+            builder.setPositiveButton("Go to GPS settings", (dialogInterface, i) -> {
+                context.startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                dialogInterface.dismiss();
             });
             builder.setNegativeButton("Close", null);
             builder.create().show();
@@ -149,7 +140,7 @@ public class NearByFragment extends Fragment {
         swipeRefreshLayout.setRefreshing(true);
 
         // GPS_PROVIDER got problem, use NETWORK_PROVIDER instead ///NETWORK_PROVIDER
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, new
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new
                 LocationListener() {
                     @Override
                     public void onLocationChanged(Location location) {
