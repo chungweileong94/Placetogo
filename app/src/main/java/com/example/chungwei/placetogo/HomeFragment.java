@@ -2,6 +2,7 @@ package com.example.chungwei.placetogo;
 
 import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
@@ -10,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -193,6 +195,7 @@ public class HomeFragment extends Fragment implements AIListener {
 
     @Override
     public void onResult(AIResponse result) {
+        //TODO same with the search button, try make a function :) Happy coding
         switch (result.getResult().getAction().toString()) {
             case APIAIService.NEARBY_LOCATION:
                 AppCompatActivity activity = (AppCompatActivity) getContext();
@@ -230,7 +233,15 @@ public class HomeFragment extends Fragment implements AIListener {
 
     @Override
     public void onListeningStarted() {
-
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                apiaiService.stopListening();
+            }
+        });
+        builder.setMessage("Listening");
+        builder.create().show();
     }
 
     @Override
