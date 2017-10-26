@@ -1,10 +1,15 @@
 package com.example.chungwei.placetogo;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +26,7 @@ import ai.api.model.AIResponse;
 
 public class HomeFragment extends Fragment implements AIListener {
     private APIAIService apiaiService;
-    //private static final int RECORD_AUDIO_PERMISSION = 0;
+    private static final int RECORD_AUDIO_PERMISSION = 0;
 
     public HomeFragment() {
 
@@ -69,11 +74,13 @@ public class HomeFragment extends Fragment implements AIListener {
         view.findViewById(R.id.search_floatingActionButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String text = editText.getText().toString().trim();
-
-                if (!text.isEmpty()) {
-                    SendRequest(text);
-                }
+//                String text = editText.getText().toString().trim();
+//
+//                if (!text.isEmpty()) {
+//                    SendRequest(text);
+//                }
+                checkAudioRecordPermission();
+                apiaiService.startListening();
             }
         });
 
@@ -186,7 +193,29 @@ public class HomeFragment extends Fragment implements AIListener {
 
     @Override
     public void onResult(AIResponse result) {
-
+        switch (result.getResult().getAction().toString()) {
+            case APIAIService.NEARBY_LOCATION:
+                AppCompatActivity activity = (AppCompatActivity) getContext();
+                activity.getSupportFragmentManager()
+                        .beginTransaction()
+                        .setCustomAnimations(R.anim.fade_in_animation, R.anim.fade_out_animation,
+                                R.anim.fade_in_animation, R.anim.fade_out_animation)
+                        .replace(R.id.content_frameLayout, NearByFragment.newInstance())
+                        .addToBackStack(MainActivity.fragment_nav_backstack_tag)
+                        .commit();
+                break;
+            case APIAIService.CURRENT_LOCATION:
+//                        builder.setMessage("Show current location");
+//                        builder.create().show();
+                break;
+            case APIAIService.SEARCH:
+//                        builder.setMessage("Places : " + aiResponse.getResult().getParameters().get("Places").getAsString());
+//                        builder.create().show();
+                break;
+            default:
+//                        builder.setMessage("I do not understand what you said.");
+//                        builder.create().show();
+    }
     }
 
     @Override
@@ -212,5 +241,38 @@ public class HomeFragment extends Fragment implements AIListener {
     @Override
     public void onListeningFinished() {
 
+    }
+
+    protected void checkAudioRecordPermission() {
+        if (ContextCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.RECORD_AUDIO)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                    Manifest.permission.RECORD_AUDIO)) {
+
+            } else {
+
+                ActivityCompat.requestPermissions(getActivity(),
+                        new String[]{Manifest.permission.RECORD_AUDIO},
+                        RECORD_AUDIO_PERMISSION);
+
+            }
+        }
+    }
+
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case RECORD_AUDIO_PERMISSION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                } else {
+                }
+                return;
+            }
+        }
     }
 }

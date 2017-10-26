@@ -73,6 +73,7 @@
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_go_white_24dp" />
+
             </android.support.constraint.ConstraintLayout>
         </LinearLayout>
 
