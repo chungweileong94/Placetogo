@@ -6,8 +6,6 @@ import android.support.annotation.Nullable;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.chungwei.placetogo.services.foursquare.models.RecommendationResult;
@@ -45,19 +43,11 @@ public class FoursquareService {
         StringRequest request = new StringRequest(
                 Request.Method.GET,
                 url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        RecommendationResult recommendationResult = gson.fromJson(response, RecommendationResult.class);
-                        callback.onResponse(recommendationResult);
-                    }
+                response -> {
+                    RecommendationResult recommendationResult = gson.fromJson(response, RecommendationResult.class);
+                    callback.onResponse(recommendationResult);
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        callback.onErrorResponse(error);
-                    }
-                });
+                error -> callback.onErrorResponse(error));
 
         requestQueue.add(request);
     }
@@ -68,25 +58,17 @@ public class FoursquareService {
         StringRequest request = new StringRequest(
                 Request.Method.GET,
                 url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        JsonParser jsonParser = new JsonParser();
-                        JsonObject s = jsonParser.parse(response)
-                                .getAsJsonObject().getAsJsonObject("response");
+                response -> {
+                    JsonParser jsonParser = new JsonParser();
+                    JsonObject s = jsonParser.parse(response)
+                            .getAsJsonObject().getAsJsonObject("response");
 
-                        String json = s.getAsJsonObject("photos").toString();
+                    String json = s.getAsJsonObject("photos").toString();
 
-                        VenuePhotoResult result = gson.fromJson(response, VenuePhotoResult.class);
-                        callback.onResponse(result);
-                    }
+                    VenuePhotoResult result = gson.fromJson(response, VenuePhotoResult.class);
+                    callback.onResponse(result);
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        callback.onErrorResponse(error);
-                    }
-                });
+                error -> callback.onErrorResponse(error));
 
         requestQueue.add(request);
     }

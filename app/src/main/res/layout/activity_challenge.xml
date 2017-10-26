@@ -1,39 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:background="#000"
     tools:context="com.example.chungwei.placetogo.ChallengeActivity">
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/view_pager"
+    <RelativeLayout
+        android:id="@+id/challenge_Layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        tools:background="#F00">
 
-    <com.github.mmin18.widget.RealtimeBlurView
+        <android.support.v4.view.ViewPager
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <com.github.mmin18.widget.RealtimeBlurView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            app:realtimeOverlayColor="@android:color/transparent" />
+
+        <LinearLayout
+            android:id="@+id/layoutDots"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dots_height"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/dots_margin_bottom"
+            android:gravity="center"
+            android:orientation="horizontal" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_above="@id/layoutDots"
+            android:alpha=".5"
+            android:background="@android:color/white"
+            tools:layout_editor_absoluteX="8dp"
+            tools:layout_editor_absoluteY="0dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/loading_Layout"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        app:realtimeOverlayColor="@android:color/transparent" />
+        android:layout_height="match_parent"
+        android:background="@drawable/challenge_loading_color">
 
-    <LinearLayout
-        android:id="@+id/layoutDots"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dots_height"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/dots_margin_bottom"
-        android:gravity="center"
-        android:orientation="horizontal" />
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_above="@id/layoutDots"
-        android:alpha=".5"
-        android:background="@android:color/white"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="0dp" />
-
-</RelativeLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/progressBar"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"
+            android:alpha=".7"
+            android:text="@string/getting_challenges"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+    </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

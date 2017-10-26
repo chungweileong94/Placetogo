@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/challenge_color3"
@@ -48,36 +49,36 @@
             android:paddingTop="@dimen/div_20dp">
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/title_textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:fontFamily="sans-serif-condensed"
                 android:gravity="center"
-                android:text="@string/Challenge3_Title"
                 android:textColor="@android:color/white"
                 android:textSize="24sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:text="@string/Challenge1_Title" />
 
             <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/imageViewIcon"
+                android:id="@+id/challenge_imageView"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/div_200dp"
                 android:background="@android:drawable/alert_dark_frame"
-                app:srcCompat="@drawable/challenge3" />
+                tools:srcCompat="@drawable/challenge1" />
 
             <TextView
-                android:id="@+id/textViewContent"
+                android:id="@+id/content_textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/div_5dp"
                 android:fontFamily="sans-serif-condensed"
                 android:paddingLeft="@dimen/desc_padding"
                 android:paddingRight="@dimen/desc_padding"
-                android:text="@string/Challenge3_Content"
                 android:textAlignment="center"
                 android:textColor="@android:color/white"
-                android:textSize="@dimen/slide_desc" />
+                android:textSize="@dimen/slide_desc"
+                tools:text="@string/Challenge1_Content" />
 
             <Button
                 android:id="@+id/button"

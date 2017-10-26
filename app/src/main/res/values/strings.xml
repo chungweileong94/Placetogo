@@ -81,4 +81,5 @@
     <string name="title_activity_search">SearchActivity</string>
     <string name="pearl_explorer">Pearl Explorer</string>
     <string name="riddle_specialist">Riddle Specialist</string>
+    <string name="getting_challenges">Getting Challenges</string>
 </resources>

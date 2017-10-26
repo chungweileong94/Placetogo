@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -13,10 +14,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
+import com.bumptech.glide.Glide;
 import com.example.chungwei.placetogo.helpers.PreferencesManager;
+import com.example.chungwei.placetogo.services.placetogo.IPlacetogoResponse;
+import com.example.chungwei.placetogo.services.placetogo.PlacetogoService;
+import com.example.chungwei.placetogo.services.placetogo.models.Challenge;
+import com.example.chungwei.placetogo.services.placetogo.models.ChallengeResult;
 
 public class ChallengeActivity extends AppCompatActivity {
 
@@ -28,10 +36,11 @@ public class ChallengeActivity extends AppCompatActivity {
     private PreferencesManager preferencesManager;
     private LinearLayout dotsLayout;
 
+    private PlacetogoService placetogoService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_challenge);
 
         // Making notification bar transparent
         if (Build.VERSION.SDK_INT >= 21) {
@@ -51,9 +60,29 @@ public class ChallengeActivity extends AppCompatActivity {
         addBottomDots(0);
         changeStatusBarColor();
 
-        myViewPagerAdapter = new ChallengeActivity.MyViewPagerAdapter();
-        viewPager.setAdapter(myViewPagerAdapter);
-        viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
+        placetogoService = new PlacetogoService(this);
+
+        Context context = this;
+
+        placetogoService.getChallenges(new IPlacetogoResponse<ChallengeResult>() {
+            @Override
+            public void onResponse(ChallengeResult result) {
+                findViewById(R.id.loading_Layout).setVisibility(View.GONE);
+                myViewPagerAdapter = new ChallengeActivity.MyViewPagerAdapter(result);
+                viewPager.setAdapter(myViewPagerAdapter);
+                viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
+            }
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle("Connection Error");
+                builder.setMessage("We not able to get the challenges data, please try again later.");
+                builder.setPositiveButton("Okay", null);
+                builder.setOnDismissListener(dialog -> ((AppCompatActivity) context).finish());
+                builder.create().show();
+            }
+        });
     }
 
     private void addBottomDots(int currentPage) {
@@ -72,10 +101,9 @@ public class ChallengeActivity extends AppCompatActivity {
             dotsLayout.addView(dots[i]);
         }
 
-        if (dots.length > 0){
+        if (dots.length > 0) {
             dots[currentPage].setTextColor(colorsActive[currentPage]);
         }
-
     }
 
     //Method changing notification bar transparent
@@ -89,15 +117,28 @@ public class ChallengeActivity extends AppCompatActivity {
 
     public class MyViewPagerAdapter extends PagerAdapter {
 
-        private LayoutInflater layoutInflater;
+        private ChallengeResult challengeResult;
 
-        public MyViewPagerAdapter() {
+        MyViewPagerAdapter(ChallengeResult challengeResult) {
+            this.challengeResult = challengeResult;
         }
 
         //Changing view to new welcome screen.
         public Object instantiateItem(ViewGroup container, int position) {
-            layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View view = layoutInflater.inflate(layouts[position], container, false);
+
+            Challenge challenge = challengeResult.getChallenges()[position];
+
+            ((TextView) view.findViewById(R.id.title_textView)).setText(challenge.getTitle());
+            ((TextView) view.findViewById(R.id.content_textView)).setText(challenge.getContent());
+
+            Glide.with(view.getContext())
+                    .load("https://placetogo.herokuapp.com/" + challenge.getImageUrl())
+                    .placeholder(R.drawable.ic_image_placeholder_gray_24dp)
+                    .centerCrop()
+                    .into((ImageView) view.findViewById(R.id.challenge_imageView));
+
             container.addView(view);
             return view;
         }
@@ -126,14 +167,15 @@ public class ChallengeActivity extends AppCompatActivity {
         @Override
         public void onPageSelected(int position) {
             addBottomDots(position);
-
         }
 
         @Override
-        public void onPageScrolled(int arg0, float arg1, int arg2) {}
+        public void onPageScrolled(int arg0, float arg1, int arg2) {
+        }
 
         @Override
-        public void onPageScrollStateChanged(int arg0) {}
+        public void onPageScrollStateChanged(int arg0) {
+        }
     };
 
 }
