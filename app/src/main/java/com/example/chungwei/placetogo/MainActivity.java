@@ -75,9 +75,6 @@ public class MainActivity extends AppCompatActivity
                 navigateFragment(AchievementFragment.newInstance(), true);
                 break;
 
-            case R.id.history_nav_item:
-                break;
-
             case R.id.settings_nav_item:
                 break;
         }

@@ -91,7 +91,7 @@ public class NearbyRecyclerViewAdapter extends RecyclerView.Adapter<NearbyRecycl
 
                     dialog = new Dialog(view.getContext(), android.R.style.Theme_Material_Light_Dialog);
                     dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                    dialog.setContentView(R.layout.location_pop_up_dialog);
+                    dialog.setContentView(R.layout.location_pop_up_dialog_layout);
                     dialog.getWindow().getAttributes().windowAnimations = R.anim.pull_down_animation;
 
                     TextView textViewPlaceName = dialog.findViewById(R.id.textViewPlaceName);
