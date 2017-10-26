@@ -65,7 +65,7 @@ public class NearbyRecyclerViewAdapter extends RecyclerView.Adapter<NearbyRecycl
         return list.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         private Item item;
         private String imageURL = "";
@@ -75,7 +75,7 @@ public class NearbyRecyclerViewAdapter extends RecyclerView.Adapter<NearbyRecycl
         private TextView ratingTextView;
         private Dialog dialog;
 
-        public ViewHolder(final View itemView) {
+        ViewHolder(final View itemView) {
             super(itemView);
 
             photo_imageView = itemView.findViewById(R.id.photo_imageView);
@@ -83,119 +83,108 @@ public class NearbyRecyclerViewAdapter extends RecyclerView.Adapter<NearbyRecycl
             distance_textView = itemView.findViewById(R.id.distance_textView);
             ratingTextView = itemView.findViewById(R.id.ratingTextView);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    final RealtimeBlurView blurView = ((Activity) view.getContext()).findViewById(R.id.blurLayout);
-                    blurView.setVisibility(View.VISIBLE);
+            itemView.setOnClickListener(view -> {
+                final RealtimeBlurView blurView = ((Activity) view.getContext()).findViewById(R.id.blurLayout);
+                blurView.setVisibility(View.VISIBLE);
 
-                    dialog = new Dialog(view.getContext(), android.R.style.Theme_Material_Light_Dialog);
-                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                    dialog.setContentView(R.layout.location_pop_up_dialog_layout);
-                    dialog.getWindow().getAttributes().windowAnimations = R.anim.pull_down_animation;
+                dialog = new Dialog(view.getContext(), android.R.style.Theme_Material_Light_Dialog);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.location_pop_up_dialog_layout);
+                dialog.getWindow().getAttributes().windowAnimations = R.anim.pull_down_animation;
 
-                    TextView textViewPlaceName = dialog.findViewById(R.id.textViewPlaceName);
-                    TextView textViewOpenHours = dialog.findViewById(R.id.textViewOpenHours);
-                    TextView textViewTip = dialog.findViewById(R.id.textViewTip);
-                    TextView textViewRatingText = dialog.findViewById(R.id.textViewRatingText);
-                    ImageView imageViewPlace = dialog.findViewById(R.id.imageViewPlace);
-                    ImageView imageViewNavigation = dialog.findViewById(R.id.imageViewNavigation);
-                    ImageView imageViewPhone = dialog.findViewById(R.id.imageViewPhone);
-                    Button buttonCancel = dialog.findViewById(R.id.buttonCancel);
-                    LinearLayout operationHoursLayout = dialog.findViewById(R.id.operationHoursLayout);
+                TextView textViewPlaceName = dialog.findViewById(R.id.textViewPlaceName);
+                TextView textViewOpenHours = dialog.findViewById(R.id.textViewOpenHours);
+                TextView textViewTip = dialog.findViewById(R.id.textViewTip);
+                TextView textViewRatingText = dialog.findViewById(R.id.textViewRatingText);
+                ImageView imageViewPlace = dialog.findViewById(R.id.imageViewPlace);
+                ImageView imageViewNavigation = dialog.findViewById(R.id.imageViewNavigation);
+                ImageView imageViewPhone = dialog.findViewById(R.id.imageViewPhone);
+                Button buttonCancel = dialog.findViewById(R.id.buttonCancel);
+                LinearLayout operationHoursLayout = dialog.findViewById(R.id.operationHoursLayout);
 
-                    textViewPlaceName.setText(item.getVenue().getName());
-                    textViewRatingText.setText(String.valueOf(item.getVenue().getRating()));
+                textViewPlaceName.setText(item.getVenue().getName());
+                textViewRatingText.setText(String.valueOf(item.getVenue().getRating()));
 
-                    if (item.getVenue().getHours() == null) {
+                if (item.getVenue().getHours() == null) {
+                    operationHoursLayout.setVisibility(View.GONE);
+                } else {
+                    String richStatus = item.getVenue().getHours().getStatus();
+
+                    if (richStatus == null) {
+                        textViewOpenHours.setText("-");
                         operationHoursLayout.setVisibility(View.GONE);
                     } else {
-                        String richStatus = item.getVenue().getHours().getStatus();
-
-                        if (richStatus == null) {
-                            textViewOpenHours.setText("-");
-                            operationHoursLayout.setVisibility(View.GONE);
-                        } else {
-                            textViewOpenHours.setText(richStatus);
-                        }
+                        textViewOpenHours.setText(richStatus);
                     }
-
-                    String tips = String.valueOf(item.getTips().get(0).getText());
-                    if (tips.isEmpty() || tips.trim().length() < 0) {
-                        textViewTip.setText(R.string.no_tips_provided);
-                    } else {
-                        textViewTip.setText(tips);
-                    }
-
-                    imageViewPhone.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-
-                            String phoneNumber = String.valueOf(item.getVenue().getContact().getPhone());
-                            String shopName = item.getVenue().getName();
-
-                            if (phoneNumber != null && phoneNumber.length() > 8) {
-                                callCaller(itemView.getContext(), phoneNumber, shopName);
-                            } else {
-                                Snackbar.make(view, "Invalid Phone Number", Snackbar.LENGTH_LONG).setAction("Close", null).show();
-                            }
-                        }
-                    });
-
-
-                    imageViewNavigation.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-
-                            String place = item.getVenue().getName();
-
-                            double lat = item.getVenue().getLocation().getLat();
-                            double lng = item.getVenue().getLocation().getLng();
-
-                            //Launch map activity together with the location marked on the map.
-                            Intent i = new Intent(view.getContext(), MapsActivity.class);
-                            i.putExtra("placeName", place);
-                            i.putExtra("place_long", lng);
-                            i.putExtra("place_lati", lat);
-                            view.getContext().startActivity(i);
-
-                        }
-                    });
-
-                    buttonCancel.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            dialog.dismiss();
-                        }
-                    });
-
-                    Glide.with(context)
-                            .load(imageURL)
-                            .placeholder(R.drawable.ic_image_placeholder_gray_24dp)
-                            .centerCrop()
-                            .into(imageViewPlace);
-
-                    dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                        @Override
-                        public void onDismiss(DialogInterface dialogInterface) {
-                            blurView.setVisibility(View.GONE);
-                        }
-                    });
-
-                    dialog.show();
-
-                    WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-                    Window window = dialog.getWindow();
-                    lp.copyFrom(window.getAttributes());
-                    //This makes the dialog take up the full width
-                    lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-                    lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-                    window.setAttributes(lp);
                 }
+
+                String tips = String.valueOf(item.getTips().get(0).getText());
+                if (tips.isEmpty() || tips.trim().length() < 0) {
+                    textViewTip.setText(R.string.no_tips_provided);
+                } else {
+                    textViewTip.setText(tips);
+                }
+
+                imageViewPhone.setOnClickListener(v -> {
+                    String phoneNumber = String.valueOf(item.getVenue().getContact().getPhone());
+                    String shopName = item.getVenue().getName();
+
+                    if (phoneNumber != null && phoneNumber.length() > 8) {
+                        callCaller(itemView.getContext(), phoneNumber, shopName);
+                    } else {
+                        Snackbar.make(v, "Invalid Phone Number", Snackbar.LENGTH_LONG).setAction("Close", null).show();
+                    }
+                });
+
+
+                imageViewNavigation.setOnClickListener(v -> {
+                    String place = item.getVenue().getName();
+
+                    double lat = item.getVenue().getLocation().getLat();
+                    double lng = item.getVenue().getLocation().getLng();
+
+                    //Launch map activity together with the location marked on the map.
+                    Intent i = new Intent(v.getContext(), MapsActivity.class);
+                    i.putExtra("placeName", place);
+                    i.putExtra("place_long", lng);
+                    i.putExtra("place_lati", lat);
+                    v.getContext().startActivity(i);
+
+                });
+
+                buttonCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+
+                Glide.with(context)
+                        .load(imageURL)
+                        .placeholder(R.drawable.ic_image_placeholder_gray_24dp)
+                        .centerCrop()
+                        .into(imageViewPlace);
+
+                dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialogInterface) {
+                        blurView.setVisibility(View.GONE);
+                    }
+                });
+
+                dialog.show();
+
+                WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+                Window window = dialog.getWindow();
+                lp.copyFrom(window.getAttributes());
+                //This makes the dialog take up the full width
+                lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+                lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+                window.setAttributes(lp);
             });
         }
 
-        public void bind(@NonNull Item item) {
+        void bind(@NonNull Item item) {
             this.item = item;
             title_textView.setText(item.getVenue().getName());
             distance_textView.setText(item.getVenue().getLocation().getDistance() + "m");
@@ -247,13 +236,13 @@ public class NearbyRecyclerViewAdapter extends RecyclerView.Adapter<NearbyRecycl
         }
 
         private String joinStrings(ArrayList<String> strings) {
-            String result = "";
+            StringBuilder result = new StringBuilder();
 
             for (String s : strings) {
-                result += s;
+                result.append(s);
             }
 
-            return result;
+            return result.toString();
         }
     }
 }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_color3">
@@ -8,12 +9,13 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:layout_centerVertical="true"
-        android:layout_alignParentStart="true">
+        tools:ignore="UselessParent">
 
-        <ImageView
+        <android.support.v7.widget.AppCompatImageView
             android:id="@+id/imageViewIcon"
             android:layout_width="match_parent"
             android:layout_height="@dimen/div_160"
@@ -22,12 +24,12 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:layout_marginTop="32dp"
             android:fontFamily="sans-serif-condensed"
+            android:gravity="center"
             android:text="@string/WelComePage3Title"
             android:textColor="@android:color/white"
             android:textSize="@dimen/slide_title"
-            android:layout_marginTop="32dp"
             android:textStyle="bold" />
 
         <TextView

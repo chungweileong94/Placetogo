@@ -35,7 +35,7 @@
     <string name="WelComePage2Title">Challenge Much?</string>
     <string name="WelcomePage2Content">Find traditional way of exploring boring? Well, here we have list of challenges for you to take and have an amusing experience with achievement points!!!</string>
 
-    <string name="WelComePage3Title">Roam Around Alot?</string>
+    <string name="WelComePage3Title">Roam Around A lot?</string>
     <string name="WelcomePage3Content">Can\'t decide where to eat or go? Give it to us. We will find you the best yet nearest place you want to eat or visit.</string>
 
     <string name="WelComePage4Title">Just Say It!</string>
@@ -66,7 +66,7 @@
     <string name="Challenge3_Content">   I once killed the Thunder God, although I was fallen with him.\n
                                          My brother consumed the greatest god, while my sister was the ruler of hell.\n
                                          I left my posterity under this cruel world, living in the shrine, while they never grows. \n
-                                         The shrine...the shrine......</string>
+                                         The shrine…the shrine......</string>
     <string name="Challenge4">Challenge 4</string>
     <string name="Challenge4_Title">The Collector</string>
     <string name="Challenge4_Content">  I am once the barrier from enemy \n
@@ -79,4 +79,6 @@
     <string name="title_activity_maps">Map</string>
 
     <string name="title_activity_search">SearchActivity</string>
+    <string name="pearl_explorer">Pearl Explorer</string>
+    <string name="riddle_specialist">Riddle Specialist</string>
 </resources>

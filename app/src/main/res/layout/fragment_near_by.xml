@@ -23,6 +23,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:clickable="true"
+        android:focusable="true"
         app:fabSize="normal"
         app:srcCompat="@drawable/ic_filter_list_white_24dp" />
 

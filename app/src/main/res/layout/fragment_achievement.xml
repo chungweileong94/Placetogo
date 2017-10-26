@@ -42,12 +42,12 @@
                         android:layout_weight="20"
                         android:background="@color/colorPrimary"
                         android:padding="@dimen/div_5dp"
-                        android:text="Pearl Explorer"
+                        android:text="@string/pearl_explorer"
                         android:textColor="@android:color/background_light"
                         android:textSize="24sp" />
                 </LinearLayout>
 
-                <ImageView
+                <android.support.v7.widget.AppCompatImageView
                     android:id="@+id/imageViewLockPE"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -70,7 +70,7 @@
                     android:orientation="vertical"
                     android:weightSum="100">
 
-                    <ImageView
+                    <android.support.v7.widget.AppCompatImageView
                         android:id="@+id/imageViewCertiRS"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/div_230dp"
@@ -85,12 +85,12 @@
                         android:layout_weight="20"
                         android:background="@android:color/holo_orange_dark"
                         android:padding="@dimen/div_5dp"
-                        android:text="Riddle Specialist"
+                        android:text="@string/riddle_specialist"
                         android:textColor="@android:color/background_light"
                         android:textSize="24sp" />
                 </LinearLayout>
 
-                <ImageView
+                <android.support.v7.widget.AppCompatImageView
                     android:id="@+id/imageViewRiddleSpecialist"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -112,7 +112,7 @@
                     android:orientation="vertical"
                     android:weightSum="100">
 
-                    <ImageView
+                    <android.support.v7.widget.AppCompatImageView
                         android:id="@+id/imageViewCerti"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/div_230dp"
@@ -127,12 +127,12 @@
                         android:layout_weight="20"
                         android:background="@android:color/holo_red_light"
                         android:padding="@dimen/div_5dp"
-                        android:text="Pearl Explorer"
+                        android:text="@string/pearl_explorer"
                         android:textColor="@android:color/background_light"
                         android:textSize="24sp" />
                 </LinearLayout>
 
-                <ImageView
+                <android.support.v7.widget.AppCompatImageView
                     android:id="@+id/imageViewCouchPotato"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

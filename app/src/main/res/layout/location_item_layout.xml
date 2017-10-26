@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clickable="true"
+    android:focusable="true"
     android:foreground="@drawable/ripple_selector_gray">
 
     <LinearLayout
@@ -43,9 +44,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                tools:ignore="UselessParent">
 
-                <ImageView
+                <android.support.v7.widget.AppCompatImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_near_me_black_24dp" />
@@ -59,23 +61,16 @@
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                     tools:text="150km" />
             </LinearLayout>
-
-            <!--<TextView-->
-            <!--android:id="@+id/address_textView"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_below="@id/status_layout"-->
-            <!--tools:text="Address Address Address Address Address Address Address" />-->
         </RelativeLayout>
 
         <View
             android:id="@+id/view"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@android:color/white"
             android:layout_marginEnd="20dp"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp"
+            android:background="#e8e8e8" />
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton

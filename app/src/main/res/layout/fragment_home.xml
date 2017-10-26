@@ -68,6 +68,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:clickable="true"
+                    android:focusable="true"
                     app:fabSize="normal"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
@@ -83,7 +84,8 @@
             android:layout_height="60dp"
             android:layout_alignParentBottom="true"
             android:background="@drawable/ripple_selector"
-            android:clickable="true">
+            android:clickable="true"
+            android:focusable="true">
 
             <com.github.mmin18.widget.RealtimeBlurView
                 android:layout_width="match_parent"
@@ -98,7 +100,7 @@
                 android:orientation="horizontal"
                 android:weightSum="10">
 
-                <ImageView
+                <android.support.v7.widget.AppCompatImageView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
@@ -112,10 +114,10 @@
                     android:layout_gravity="center"
                     android:layout_weight="6"
                     android:padding="16dp"
-                    android:textColor="@android:color/white"
                     android:text="@string/home_mission_msg"
                     android:textAlignment="center"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                    android:textColor="@android:color/white" />
             </LinearLayout>
         </RelativeLayout>
     </RelativeLayout>
