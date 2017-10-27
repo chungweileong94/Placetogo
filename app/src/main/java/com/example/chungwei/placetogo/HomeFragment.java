@@ -2,7 +2,7 @@ package com.example.chungwei.placetogo;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
@@ -17,7 +17,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.chungwei.placetogo.services.TTS;
 import com.example.chungwei.placetogo.services.apiai.APIAIService;
@@ -28,7 +30,7 @@ import ai.api.model.AIError;
 import ai.api.model.AIResponse;
 
 
-public class HomeFragment extends Fragment implements AIListener {
+public class HomeFragment extends Fragment {
     private APIAIService apiaiService;
     private static final int RECORD_AUDIO_PERMISSION = 0;
 
@@ -46,7 +48,42 @@ public class HomeFragment extends Fragment implements AIListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        apiaiService = new APIAIService(getContext(), this);
+        apiaiService = new APIAIService(getContext(), new AIListener() {
+            @Override
+            public void onResult(AIResponse result) {
+                searchResponse(result, true);
+            }
+
+            @Override
+            public void onError(AIError error) {
+
+            }
+
+            @Override
+            public void onAudioLevel(float level) {
+
+            }
+
+            @Override
+            public void onListeningStarted() {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setPositiveButton("Cancel", (d, w) -> {
+                    apiaiService.stopListening();
+                });
+                builder.setMessage("Listening");
+                builder.create().show();
+            }
+
+            @Override
+            public void onListeningCanceled() {
+
+            }
+
+            @Override
+            public void onListeningFinished() {
+
+            }
+        });
         TTS.init(getContext());
     }
 
@@ -60,27 +97,22 @@ public class HomeFragment extends Fragment implements AIListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_home, container, false);
-        final EditText editText = view.findViewById(R.id.search_editText);
+        final EditText search_editText = view.findViewById(R.id.search_editText);
 
+        search_editText.setOnEditorActionListener((v, actionId, event) -> {
+            String text = search_editText.getText().toString().trim();
 
-        //disable auto focus
-//        ScrollView scrollView = view.findViewById(R.id.content_scrollView);
-//        scrollView.setDescendantFocusability(ViewGroup.FOCUS_BEFORE_DESCENDANTS);
-//        scrollView.setFocusable(true);
-//        scrollView.setFocusableInTouchMode(true);
-//        scrollView.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View view, MotionEvent motionEvent) {
-//                view.requestFocusFromTouch();
-//                return false;
-//            }
-//        });
+            if (!text.isEmpty()) {
+                SendRequest(text);
+            }
 
+            return true;
+        });
 
         //search button
         search_floatingActionButton = view.findViewById(R.id.search_floatingActionButton);
         search_floatingActionButton.setOnClickListener(v -> {
-            String text = editText.getText().toString().trim();
+            String text = search_editText.getText().toString().trim();
 
             if (!text.isEmpty()) {
                 SendRequest(text);
@@ -105,25 +137,21 @@ public class HomeFragment extends Fragment implements AIListener {
     private void SendRequest(String text) {
         @SuppressLint("StaticFieldLeak")
         AsyncTask<String, Integer, AIResponse> task = new AsyncTask<String, Integer, AIResponse>() {
-            ProgressDialog dialog;
+            Dialog dialog;
 
             @Override
             protected void onPreExecute() {
-                dialog = new ProgressDialog(getContext());
-                dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                dialog.setMax(100);
+                dialog = new Dialog(getContext(), android.R.style.Theme_Material_Dialog);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.search_loading_popup_layout);
                 dialog.show();
             }
 
             @Override
             protected AIResponse doInBackground(String... strings) {
-
                 AIResponse result = null;
                 try {
-                    for (int i = 0; i < 2; i++) {
-                        publishProgress(50);
-                        result = apiaiService.textRequest(strings[0]);
-                    }
+                    result = apiaiService.textRequest(strings[0]);
                     dialog.dismiss();
 
                     return result;
@@ -134,46 +162,16 @@ public class HomeFragment extends Fragment implements AIListener {
             }
 
             @Override
-            protected void onProgressUpdate(Integer... values) {
-                dialog.incrementProgressBy(values[0]);
-            }
-
-            @Override
             protected void onPostExecute(AIResponse aiResponse) {
-//                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                switch (aiResponse.getResult().getAction()) {
-                    case APIAIService.NEARBY_LOCATION:
-                        AppCompatActivity activity = (AppCompatActivity) getContext();
-                        activity.getSupportFragmentManager()
-                                .beginTransaction()
-                                .setCustomAnimations(R.anim.fade_in_animation, R.anim.fade_out_animation,
-                                        R.anim.fade_in_animation, R.anim.fade_out_animation)
-                                .replace(R.id.content_frameLayout, NearByFragment.newInstance())
-                                .addToBackStack(MainActivity.fragment_nav_backstack_tag)
-                                .commit();
-                        break;
-                    case APIAIService.CURRENT_LOCATION:
-//                        builder.setMessage("Show current location");
-//                        builder.create().show();
-                        break;
-                    case APIAIService.SEARCH:
-//                        builder.setMessage("Places : " + aiResponse.getResult().getParameters().get("Places").getAsString());
-//                        builder.create().show();
-                        break;
-                    default:
-//                        builder.setMessage("I do not understand what you said.");
-//                        builder.create().show();
-                }
+                searchResponse(aiResponse, false);
             }
         };
 
         task.execute(text);
     }
 
-    @Override
-    public void onResult(AIResponse result) {
-        //TODO same with the search button, try make a function :) Happy coding
-        switch (result.getResult().getAction()) {
+    private void searchResponse(AIResponse aiResponse, boolean tts) {
+        switch (aiResponse.getResult().getAction()) {
             case APIAIService.NEARBY_LOCATION:
                 AppCompatActivity activity = (AppCompatActivity) getContext();
                 activity.getSupportFragmentManager()
@@ -183,50 +181,15 @@ public class HomeFragment extends Fragment implements AIListener {
                         .replace(R.id.content_frameLayout, NearByFragment.newInstance())
                         .addToBackStack(MainActivity.fragment_nav_backstack_tag)
                         .commit();
-                TTS.speak("Searching for nearby location for you!");
-                break;
-            case APIAIService.CURRENT_LOCATION:
-//                        builder.setMessage("Show current location");
-//                        builder.create().show();
+                if (tts) TTS.speak("Searching for nearby location for you!");
                 break;
             case APIAIService.SEARCH:
 //                        builder.setMessage("Places : " + aiResponse.getResult().getParameters().get("Places").getAsString());
 //                        builder.create().show();
                 break;
             default:
-//                        builder.setMessage("I do not understand what you said.");
-//                        builder.create().show();
+                Toast.makeText(getContext(), "I do not understand what you said.", Toast.LENGTH_LONG).show();
         }
-    }
-
-    @Override
-    public void onError(AIError error) {
-
-    }
-
-    @Override
-    public void onAudioLevel(float level) {
-
-    }
-
-    @Override
-    public void onListeningStarted() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setPositiveButton("Cancel", (d, w) -> {
-            apiaiService.stopListening();
-        });
-        builder.setMessage("Listening");
-        builder.create().show();
-    }
-
-    @Override
-    public void onListeningCanceled() {
-
-    }
-
-    @Override
-    public void onListeningFinished() {
-
     }
 
     protected void checkAudioRecordPermission() {
@@ -239,11 +202,9 @@ public class HomeFragment extends Fragment implements AIListener {
                     Manifest.permission.RECORD_AUDIO)) {
 
             } else {
-
                 ActivityCompat.requestPermissions(getActivity(),
                         new String[]{Manifest.permission.RECORD_AUDIO},
                         RECORD_AUDIO_PERMISSION);
-
             }
         }
     }
