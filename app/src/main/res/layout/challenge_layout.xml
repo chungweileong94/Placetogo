@@ -86,7 +86,7 @@
                     tools:text="@string/Challenge1_Content" />
 
                 <Button
-                    android:id="@+id/button"
+                    android:id="@+id/checkIn_Button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"

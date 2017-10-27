@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="24dp"
+    android:paddingEnd="30dp"
+    android:paddingStart="30dp">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/done_ImageView"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            app:srcCompat="@drawable/ic_done_accent_24dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/done_ImageView"
+            android:layout_marginTop="8dp"
+            android:text="@string/well_done"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+    </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

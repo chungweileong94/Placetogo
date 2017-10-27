@@ -1,6 +1,10 @@
 package com.example.chungwei.placetogo.services.placetogo.models;
 
 public class Challenge {
+    public Challenge() {
+        complete = false;
+    }
+
     private String _id;
 
     public String getId() {
@@ -71,5 +75,15 @@ public class Challenge {
 
     public void setLock(boolean lock) {
         this.lock = lock;
+    }
+
+    private boolean complete;
+
+    public boolean isComplete() {
+        return complete;
+    }
+
+    public void setComplete(boolean complete) {
+        this.complete = complete;
     }
 }

@@ -138,18 +138,13 @@ public class HomeFragment extends Fragment {
         @SuppressLint("StaticFieldLeak")
         AsyncTask<String, Integer, AIResponse> task = new AsyncTask<String, Integer, AIResponse>() {
             Dialog dialog;
-            boolean isDialogClose = false;
 
             @Override
             protected void onPreExecute() {
                 dialog = new Dialog(getContext(), android.R.style.Theme_Material_Dialog);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setContentView(R.layout.search_loading_popup_layout);
-                dialog.setOnDismissListener(d -> {
-                    if (isDialogClose) {
-                        d.dismiss();
-                    }
-                });
+                dialog.setCancelable(false);
                 dialog.show();
             }
 
@@ -158,7 +153,6 @@ public class HomeFragment extends Fragment {
                 AIResponse result = null;
                 try {
                     result = apiaiService.textRequest(strings[0]);
-                    isDialogClose = true;
                     dialog.dismiss();
 
                     return result;

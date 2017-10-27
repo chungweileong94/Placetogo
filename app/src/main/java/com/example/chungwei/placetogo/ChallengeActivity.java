@@ -1,9 +1,11 @@
 package com.example.chungwei.placetogo;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
@@ -132,7 +134,6 @@ public class ChallengeActivity extends AppCompatActivity {
             this.challengeResult = challengeResult;
         }
 
-        //Changing view to new welcome screen.
         public Object instantiateItem(ViewGroup container, int position) {
             LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View view = layoutInflater.inflate(R.layout.challenge_layout, container, false);
@@ -144,12 +145,39 @@ public class ChallengeActivity extends AppCompatActivity {
             view.findViewById(R.id.lock_ImageView).setVisibility(challenge.isLock() ? View.VISIBLE : View.GONE);
             ((TextView) view.findViewById(R.id.title_textView)).setText(challenge.getTitle());
             ((TextView) view.findViewById(R.id.content_textView)).setText(challenge.getContent());
+            view.findViewById(R.id.checkIn_Button).setEnabled(challenge.isComplete() ? false : true);
 
             Glide.with(view.getContext())
                     .load("https://placetogo.herokuapp.com/" + challenge.getImageUrl())
                     .placeholder(R.drawable.ic_image_placeholder_gray_24dp)
                     .centerCrop()
                     .into((ImageView) view.findViewById(R.id.challenge_imageView));
+
+            view.findViewById(R.id.checkIn_Button).setOnClickListener(v -> {
+                challenge.setComplete(true);
+                v.setEnabled(false);
+
+                if (challenge.getNo() < challengeResult.getChallenges().length) {
+                    challengeResult.getChallenges()[challenge.getNo()].setLock(false);
+
+                    View nextView = viewPager.getChildAt(viewPager.getChildCount() - 1);
+                    if (nextView != null) {
+                        nextView.findViewById(R.id.content_ScrollView)
+                                .setVisibility(challengeResult.getChallenges()[challenge.getNo()].isLock() ? View.GONE : View.VISIBLE);
+                        nextView.findViewById(R.id.lock_ImageView)
+                                .setVisibility(challengeResult.getChallenges()[challenge.getNo()].isLock() ? View.VISIBLE : View.GONE);
+                    }
+                }
+                Dialog dialog = new Dialog(v.getContext(), android.R.style.Theme_Material_Dialog);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.challenge_complete_popup_layout);
+                dialog.setCancelable(false);
+                dialog.show();
+
+                Handler mHandler = new Handler();
+                Runnable mRunnable = dialog::dismiss;
+                mHandler.postDelayed(mRunnable, 2000);
+            });
 
             container.addView(view);
             return view;
