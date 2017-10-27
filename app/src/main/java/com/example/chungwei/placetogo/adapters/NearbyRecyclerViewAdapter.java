@@ -24,7 +24,6 @@ import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
-import com.example.chungwei.placetogo.MapsActivity;
 import com.example.chungwei.placetogo.R;
 import com.example.chungwei.placetogo.services.foursquare.FoursquareService;
 import com.example.chungwei.placetogo.services.foursquare.IFoursquareResponse;
@@ -142,13 +141,19 @@ public class NearbyRecyclerViewAdapter extends RecyclerView.Adapter<NearbyRecycl
                     double lat = item.getVenue().getLocation().getLat();
                     double lng = item.getVenue().getLocation().getLng();
 
-                    //Launch map activity together with the location marked on the map.
-                    Intent i = new Intent(v.getContext(), MapsActivity.class);
-                    i.putExtra("placeName", place);
-                    i.putExtra("place_long", lng);
-                    i.putExtra("place_lati", lat);
-                    v.getContext().startActivity(i);
+//                    //Launch map activity together with the location marked on the map.
+//                    Intent i = new Intent(v.getContext(), MapsActivity.class);
+//                    i.putExtra("placeName", place);
+//                    i.putExtra("place_long", lng);
+//                    i.putExtra("place_lati", lat);
+//                    v.getContext().startActivity(i);
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setPackage("com.google.android.apps.maps");
+                    intent.setData(Uri.parse("geo:0,0?q=" + lat + "," + lng + "(" + place + ")"));
 
+                    if (intent.resolveActivity(v.getContext().getPackageManager()) != null) {
+                        v.getContext().startActivity(intent);
+                    }
                 });
 
                 buttonCancel.setOnClickListener(new View.OnClickListener() {
