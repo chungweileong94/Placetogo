@@ -58,5 +58,5 @@
     <dimen name="app_bar_height">180dp</dimen>
     <dimen name="text_margin">16dp</dimen>
 
-    <dimen name="challege_content_bottom_padding">59dp</dimen>
+    <dimen name="challenge_content_bottom_padding">59dp</dimen>
 </resources>

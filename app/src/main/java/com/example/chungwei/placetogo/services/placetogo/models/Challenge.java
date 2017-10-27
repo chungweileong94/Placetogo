@@ -63,11 +63,13 @@ public class Challenge {
 
     private int __v;
 
-    public int getV() {
-        return this.__v;
+    private boolean lock;
+
+    public boolean isLock() {
+        return lock;
     }
 
-    public void setV(int __v) {
-        this.__v = __v;
+    public void setLock(boolean lock) {
+        this.lock = lock;
     }
 }

@@ -29,14 +29,25 @@ import com.example.chungwei.placetogo.services.placetogo.models.ChallengeResult;
 public class ChallengeActivity extends AppCompatActivity {
 
     //Object Declaration for the layout swipe screen.
-    private int[] layouts;
     private TextView[] dots;
     private ViewPager viewPager;
     private ChallengeActivity.MyViewPagerAdapter myViewPagerAdapter;
     private PreferencesManager preferencesManager;
     private LinearLayout dotsLayout;
 
-    private PlacetogoService placetogoService;
+    private int[] backgroundColors = {
+            R.drawable.challenge_color1,
+            R.drawable.challenge_color2,
+            R.drawable.challenge_color3,
+            R.drawable.challenge_color4
+    };
+
+    private int[] headerStrings = {
+            R.string.Challenge1,
+            R.string.Challenge2,
+            R.string.Challenge3,
+            R.string.Challenge4
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,22 +62,20 @@ public class ChallengeActivity extends AppCompatActivity {
         viewPager = findViewById(R.id.view_pager);
         dotsLayout = findViewById(R.id.layoutDots);
 
-        layouts = new int[]{
-                R.layout.challenge_1_layout,
-                R.layout.challenge_2_layout,
-                R.layout.challenge_3_layout,
-                R.layout.challenge_4_layout};
-
         addBottomDots(0);
         changeStatusBarColor();
 
-        placetogoService = new PlacetogoService(this);
-
         Context context = this;
 
+        PlacetogoService placetogoService = new PlacetogoService(this);
         placetogoService.getChallenges(new IPlacetogoResponse<ChallengeResult>() {
             @Override
             public void onResponse(ChallengeResult result) {
+                //lock all challenges start form second
+                for (int i = 1; i < result.getChallenges().length; i++) {
+                    result.getChallenges()[i].setLock(true);
+                }
+
                 findViewById(R.id.loading_Layout).setVisibility(View.GONE);
                 myViewPagerAdapter = new ChallengeActivity.MyViewPagerAdapter(result);
                 viewPager.setAdapter(myViewPagerAdapter);
@@ -87,7 +96,7 @@ public class ChallengeActivity extends AppCompatActivity {
 
     private void addBottomDots(int currentPage) {
 
-        dots = new TextView[layouts.length];
+        dots = new TextView[headerStrings.length];
 
         int[] colorsActive = getResources().getIntArray(R.array.array_dot_active);
         int[] colorsInactive = getResources().getIntArray(R.array.array_dot_inactive);
@@ -126,10 +135,13 @@ public class ChallengeActivity extends AppCompatActivity {
         //Changing view to new welcome screen.
         public Object instantiateItem(ViewGroup container, int position) {
             LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View view = layoutInflater.inflate(layouts[position], container, false);
+            View view = layoutInflater.inflate(R.layout.challenge_layout, container, false);
 
             Challenge challenge = challengeResult.getChallenges()[position];
-
+            view.setBackground(getResources().getDrawable(backgroundColors[position]));
+            ((TextView) view.findViewById(R.id.challenge_count_TextView)).setText(getResources().getString(headerStrings[position]));
+            view.findViewById(R.id.content_ScrollView).setVisibility(challenge.isLock() ? View.GONE : View.VISIBLE);
+            view.findViewById(R.id.lock_ImageView).setVisibility(challenge.isLock() ? View.VISIBLE : View.GONE);
             ((TextView) view.findViewById(R.id.title_textView)).setText(challenge.getTitle());
             ((TextView) view.findViewById(R.id.content_textView)).setText(challenge.getContent());
 
@@ -145,7 +157,7 @@ public class ChallengeActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            return layouts.length;
+            return headerStrings.length;
         }
 
         @Override

@@ -27,7 +27,7 @@ public class SearchActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         location_RecyclerView.setLayoutManager(layoutManager);
 
-        String type = getIntent().getExtras().getString("searchType");
+        String type = getIntent().getExtras().getString("searchQuery");
 
         switch (type) {
             case APIAIService.SEARCH:
