@@ -137,31 +137,20 @@ public class AchievementFragment extends Fragment {
             File dir = new File(filepath.getAbsolutePath() + "/PlaceToGo/");
             dir.mkdirs();
 
-            // Create a name for the saved image
             File file = new File(dir, "achievement.png");
 
             try {
 
-                // Share Intent
                 Intent share = new Intent(Intent.ACTION_SEND);
-
-                // Type of file to share
                 share.setType("image/jpeg");
 
                 output = new FileOutputStream(file);
-
-                // Compress into png format image from 0% - 100%
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, output);
                 output.flush();
                 output.close();
 
-                // Locate the image to Share
                 Uri uri = Uri.fromFile(file);
-
-                // Pass the image into an Intnet
                 share.putExtra(Intent.EXTRA_STREAM, uri);
-
-                // Show the social share chooser list
                 startActivity(Intent.createChooser(share, "PlaceToGo Achievement Sharing"));
 
             } catch (Exception e) {
