@@ -15,6 +15,7 @@ public class PreferencesManager {
     private static final String PREF_NAME = "PlaceToGo";
     private static final String FIRST_TIME_LAUNCH = "FirstTimeLaunch";
     private static final String CHALLENGE_CLEAR = "ChallengeClear";
+    private static final String CHALLENGE1_OPEN = "Challenge1Open";
 
     public PreferencesManager(Context context) {
         this._context = context;
@@ -25,6 +26,15 @@ public class PreferencesManager {
     public void setFirstTimeLaunch(boolean isFirstTime) {
         editor.putBoolean(FIRST_TIME_LAUNCH, isFirstTime);
         editor.commit();
+    }
+
+    public void setChallenge1IsOPEN(boolean challengeIsOpen) {
+        editor.putBoolean(CHALLENGE1_OPEN, challengeIsOpen);
+        editor.commit();
+    }
+
+    public boolean isChallenge1IsOPEN() {
+        return pref.getBoolean(CHALLENGE1_OPEN, true);
     }
 
     public boolean isFirstTimeLaunch() {
