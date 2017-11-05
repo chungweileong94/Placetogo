@@ -35,6 +35,7 @@ public class HomeFragment extends Fragment {
     private static final int RECORD_AUDIO_PERMISSION = 0;
 
     private FloatingActionButton search_floatingActionButton;
+    AlertDialog dlg;
 
     public HomeFragment() {
 
@@ -71,7 +72,10 @@ public class HomeFragment extends Fragment {
                     apiaiService.stopListening();
                 });
                 builder.setMessage("Listening");
-                builder.create().show();
+                builder.setCancelable(true);
+                dlg = builder.create();
+                dlg.show();
+
             }
 
             @Override
@@ -81,7 +85,7 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onListeningFinished() {
-
+                dlg.dismiss();
             }
         });
         TTS.init(getContext());
