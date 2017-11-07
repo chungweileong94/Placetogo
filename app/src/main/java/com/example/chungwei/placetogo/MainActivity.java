@@ -75,9 +75,6 @@ public class MainActivity extends AppCompatActivity
             case R.id.achievement_nav_item:
                 navigateFragment(AchievementFragment.newInstance(), true);
                 break;
-
-            case R.id.settings_nav_item:
-                break;
         }
 
         ((DrawerLayout) findViewById(R.id.drawer_layout)).closeDrawer(GravityCompat.START);

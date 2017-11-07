@@ -19,15 +19,4 @@
             android:icon="@drawable/ic_trophy"
             android:title="@string/achievement" />
     </group>
-
-    <group android:checkableBehavior="none">
-        <item android:title="@string/others">
-            <menu>
-                <item
-                    android:id="@+id/settings_nav_item"
-                    android:icon="@drawable/ic_settings_black_24dp"
-                    android:title="@string/settings" />
-            </menu>
-        </item>
-    </group>
 </menu>
