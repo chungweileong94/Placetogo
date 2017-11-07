@@ -179,8 +179,6 @@ public class HomeFragment extends Fragment {
         task.execute(text);
     }
 
-    boolean isSearching = false;
-
     private void searchResponse(AIResponse aiResponse, boolean tts) {
         if (aiResponse == null || aiResponse.getResult() == null) {
             Toast.makeText(getContext(), "I do not understand what you said.", Toast.LENGTH_LONG).show();
