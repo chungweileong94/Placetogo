@@ -80,6 +80,7 @@ public class ChallengeActivity extends AppCompatActivity {
 
                 findViewById(R.id.loading_Layout).setVisibility(View.GONE);
                 myViewPagerAdapter = new ChallengeActivity.MyViewPagerAdapter(result);
+                viewPager.setOffscreenPageLimit(4 - 1);
                 viewPager.setAdapter(myViewPagerAdapter);
                 viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
             }
@@ -145,7 +146,7 @@ public class ChallengeActivity extends AppCompatActivity {
             view.findViewById(R.id.lock_ImageView).setVisibility(challenge.isLock() ? View.VISIBLE : View.GONE);
             ((TextView) view.findViewById(R.id.title_textView)).setText(challenge.getTitle());
             ((TextView) view.findViewById(R.id.content_textView)).setText(challenge.getContent());
-            view.findViewById(R.id.checkIn_Button).setEnabled(challenge.isComplete() ? false : true);
+            view.findViewById(R.id.checkIn_Button).setEnabled(!challenge.isComplete());
 
             Glide.with(view.getContext())
                     .load("https://placetogo.herokuapp.com/" + challenge.getImageUrl())
@@ -160,7 +161,7 @@ public class ChallengeActivity extends AppCompatActivity {
                 if (challenge.getNo() < challengeResult.getChallenges().length) {
                     challengeResult.getChallenges()[challenge.getNo()].setLock(false);
 
-                    View nextView = viewPager.getChildAt(viewPager.getChildCount() - 1);
+                    View nextView = viewPager.getChildAt(challenge.getNo());
                     if (nextView != null) {
                         nextView.findViewById(R.id.content_ScrollView)
                                 .setVisibility(challengeResult.getChallenges()[challenge.getNo()].isLock() ? View.GONE : View.VISIBLE);
