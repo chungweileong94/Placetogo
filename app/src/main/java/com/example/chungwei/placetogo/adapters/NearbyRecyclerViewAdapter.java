@@ -116,7 +116,7 @@ public class NearbyRecyclerViewAdapter extends RecyclerView.Adapter<NearbyRecycl
                     }
                 }
 
-                String tips = String.valueOf(item.getTips().get(0).getText());
+                String tips = item.getTips() == null || item.getTips().size() == 0 ? "" : String.valueOf(item.getTips().get(0).getText());
                 if (tips.isEmpty() || tips.trim().length() < 0) {
                     textViewTip.setText(R.string.no_tips_provided);
                 } else {
