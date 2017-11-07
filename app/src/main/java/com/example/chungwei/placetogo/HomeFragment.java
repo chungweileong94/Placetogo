@@ -14,6 +14,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 
 import com.example.chungwei.placetogo.services.TTS;
 import com.example.chungwei.placetogo.services.apiai.APIAIService;
+import com.example.chungwei.placetogo.services.foursquare.PlaceCategories;
 
 import ai.api.AIListener;
 import ai.api.AIServiceException;
@@ -104,10 +106,12 @@ public class HomeFragment extends Fragment {
         final EditText search_editText = view.findViewById(R.id.search_editText);
 
         search_editText.setOnEditorActionListener((v, actionId, event) -> {
-            String text = search_editText.getText().toString().trim();
+            if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                String text = search_editText.getText().toString().trim();
 
-            if (!text.isEmpty()) {
-                SendRequest(text);
+                if (!text.isEmpty()) {
+                    SendRequest(text);
+                }
             }
 
             return true;
@@ -175,15 +179,39 @@ public class HomeFragment extends Fragment {
         task.execute(text);
     }
 
+    boolean isSearching = false;
+
     private void searchResponse(AIResponse aiResponse, boolean tts) {
+        if (aiResponse.getResult() == null) {
+            Toast.makeText(getContext(), "I do not understand what you said.", Toast.LENGTH_LONG).show();
+        }
+
         switch (aiResponse.getResult().getAction()) {
             case APIAIService.NEARBY_LOCATION:
+                PlaceCategories category;
+
+                try {
+                    switch (aiResponse.getResult().getParameters().get("Category").getAsString().toLowerCase()) {
+                        case "hotel":
+                            category = PlaceCategories.Hotel;
+                            break;
+                        case "food":
+                            category = PlaceCategories.Restaurant;
+                            break;
+                        default:
+                            category = PlaceCategories.All;
+                            break;
+                    }
+                } catch (Exception e) {
+                    category = PlaceCategories.All;
+                }
+
                 AppCompatActivity activity = (AppCompatActivity) getContext();
                 activity.getSupportFragmentManager()
                         .beginTransaction()
                         .setCustomAnimations(R.anim.fade_in_animation, R.anim.fade_out_animation,
                                 R.anim.fade_in_animation, R.anim.fade_out_animation)
-                        .replace(R.id.content_frameLayout, NearByFragment.newInstance())
+                        .replace(R.id.content_frameLayout, NearByFragment.newInstance(category))
                         .addToBackStack(MainActivity.fragment_nav_backstack_tag)
                         .commit();
                 if (tts) TTS.speak("Searching for nearby location for you!");

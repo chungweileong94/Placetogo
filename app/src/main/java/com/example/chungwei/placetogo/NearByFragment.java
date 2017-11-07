@@ -36,6 +36,7 @@ import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 
 public class NearByFragment extends Fragment {
 
+    private static final String CATEGORY_PARAM = "category";
     private static final int LOCATION_PERMISSIONS_CODE = 0;
     private Context context;
     private FoursquareService foursquareService;
@@ -51,14 +52,21 @@ public class NearByFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static NearByFragment newInstance() {
-        return new NearByFragment();
+    public static NearByFragment newInstance(PlaceCategories category) {
+        NearByFragment fragment = new NearByFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(CATEGORY_PARAM, String.valueOf(category));
+        fragment.setArguments(bundle);
+
+        return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
+        placeCategories = PlaceCategories.valueOf(getArguments().getString(CATEGORY_PARAM));
     }
 
     @Override

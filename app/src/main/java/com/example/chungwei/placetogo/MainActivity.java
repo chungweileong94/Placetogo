@@ -13,6 +13,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.example.chungwei.placetogo.services.foursquare.PlaceCategories;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -69,7 +71,7 @@ public class MainActivity extends AppCompatActivity
                 break;
 
             case R.id.near_by_nav_item:
-                navigateFragment(NearByFragment.newInstance(), true);
+                navigateFragment(NearByFragment.newInstance(PlaceCategories.All), true);
                 break;
 
             case R.id.achievement_nav_item:
