@@ -192,11 +192,10 @@ public class HomeFragment extends Fragment {
                 Intent intent = new Intent(getContext(), SearchActivity.class);
                 intent.putExtra("searchQuery", aiResponse.getResult().getParameters().get("Places").getAsString());
                 getContext().startActivity(intent);
-//                        builder.setMessage("Places : " + aiResponse.getResult().getParameters().get("Places").getAsString());
-//                        builder.create().show();
                 break;
             default:
                 Toast.makeText(getContext(), "I do not understand what you said.", Toast.LENGTH_LONG).show();
+                break;
         }
     }
 

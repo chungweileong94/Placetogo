@@ -22,12 +22,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.android.volley.VolleyError;
 import com.example.chungwei.placetogo.adapters.NearbyRecyclerViewAdapter;
 import com.example.chungwei.placetogo.services.foursquare.FoursquareService;
 import com.example.chungwei.placetogo.services.foursquare.IFoursquareResponse;
+import com.example.chungwei.placetogo.services.foursquare.PlaceCategories;
 import com.example.chungwei.placetogo.services.foursquare.models.RecommendationResult;
+import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
+import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 
 
 public class NearByFragment extends Fragment {
@@ -36,19 +40,19 @@ public class NearByFragment extends Fragment {
     private Context context;
     private FoursquareService foursquareService;
     private RecyclerView nearby_recyclerView;
-    private RecyclerView.LayoutManager recyclerViewlayoutManager;
     private RecyclerView.Adapter recyclerViewAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
 
     private boolean isRefreshManuallyTrigger = false;
+    private PlaceCategories placeCategories = PlaceCategories.All;
+    private FloatingActionMenu filterActionMenu;
 
     public NearByFragment() {
         // Required empty public constructor
     }
 
     public static NearByFragment newInstance() {
-        NearByFragment fragment = new NearByFragment();
-        return fragment;
+        return new NearByFragment();
     }
 
     @Override
@@ -60,7 +64,7 @@ public class NearByFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        getActivity().setTitle(getResources().getString(R.string.near_by));
+        getActivity().setTitle("Near By - " + String.valueOf(placeCategories));
     }
 
     @Override
@@ -70,12 +74,12 @@ public class NearByFragment extends Fragment {
         context = view.getContext();
 
         nearby_recyclerView = view.findViewById(R.id.nearBy_recyclerView);
-        recyclerViewlayoutManager = new LinearLayoutManager(context);
-        nearby_recyclerView.setLayoutManager(recyclerViewlayoutManager);
+        nearby_recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
-
         swipeRefreshLayout.setOnRefreshListener(this::loadNearByLocation);
+
+        setupFilterMenuButton(view.findViewById(R.id.search_floatingActionButton));
 
         loadNearByLocation();
 
@@ -109,6 +113,9 @@ public class NearByFragment extends Fragment {
     }
 
     private void loadNearByLocation() {
+        if (filterActionMenu != null) filterActionMenu.close(true);
+
+        nearby_recyclerView.setAdapter(null);
         isRefreshManuallyTrigger = true;
         LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 
@@ -123,7 +130,7 @@ public class NearByFragment extends Fragment {
             return;
         }
 
-        if (!locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+        if (!(locationManager != null && locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER))) {
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setTitle("GPS is disabled");
             builder.setMessage("Please turn on the GPS and enable the permission to access location.");
@@ -140,7 +147,7 @@ public class NearByFragment extends Fragment {
         swipeRefreshLayout.setRefreshing(true);
 
         // GPS_PROVIDER got problem, use NETWORK_PROVIDER instead ///NETWORK_PROVIDER
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, new
                 LocationListener() {
                     @Override
                     public void onLocationChanged(Location location) {
@@ -174,7 +181,7 @@ public class NearByFragment extends Fragment {
                                 builder.setMessage("Something went wrong. Please try again later.");
                                 builder.setPositiveButton("Close", null);
                             }
-                        }, ll, null, 20);
+                        }, ll, placeCategories, 20);
 
                         isRefreshManuallyTrigger = false;
                     }
@@ -194,5 +201,51 @@ public class NearByFragment extends Fragment {
 
                     }
                 });
+    }
+
+    private void setupFilterMenuButton(View buttonView) {
+        SubActionButton.Builder itemBuilder = new SubActionButton.Builder(getActivity());
+        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(180, 180);
+
+        //restaurant button
+        ImageView restaurantIcon = new ImageView(getActivity());
+        restaurantIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_restaurant_black_24dp));
+        SubActionButton restaurantActionButton = itemBuilder.setContentView(restaurantIcon).build();
+        restaurantActionButton.setLayoutParams(layoutParams);
+        restaurantActionButton.setOnClickListener(v -> {
+            placeCategories = PlaceCategories.Restaurant;
+            getActivity().setTitle("Near By - " + String.valueOf(placeCategories));
+            loadNearByLocation();
+        });
+
+        //hotel button
+        ImageView hotelIcon = new ImageView(getActivity());
+        hotelIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_hotel_black_24dp));
+        SubActionButton hotelActionButton = itemBuilder.setContentView(hotelIcon).build();
+        hotelActionButton.setLayoutParams(layoutParams);
+        hotelActionButton.setOnClickListener(v -> {
+            placeCategories = PlaceCategories.Hotel;
+            getActivity().setTitle("Near By - " + String.valueOf(placeCategories));
+            loadNearByLocation();
+        });
+
+        //all button
+        ImageView allIcon = new ImageView(getActivity());
+        allIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_all_black_24dp));
+        SubActionButton allActionButton = itemBuilder.setContentView(allIcon).build();
+        allActionButton.setLayoutParams(layoutParams);
+        allActionButton.setOnClickListener(v -> {
+            placeCategories = PlaceCategories.All;
+            getActivity().setTitle("Near By - " + String.valueOf(placeCategories));
+            loadNearByLocation();
+        });
+
+        //setup
+        filterActionMenu = new FloatingActionMenu.Builder(getActivity())
+                .addSubActionView(restaurantActionButton)
+                .addSubActionView(hotelActionButton)
+                .addSubActionView(allActionButton)
+                .attachTo(buttonView)
+                .build();
     }
 }

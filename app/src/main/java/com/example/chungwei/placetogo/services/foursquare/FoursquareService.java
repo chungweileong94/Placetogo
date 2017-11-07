@@ -33,11 +33,11 @@ public class FoursquareService {
         gson = new GsonBuilder().excludeFieldsWithModifiers(Modifier.PROTECTED).create();
     }
 
-    public void getVenueRecommendation(@NonNull final IFoursquareResponse<RecommendationResult> callback, @Nullable String ll, @Nullable String query, @NonNull int limit) {
+    public void getVenueRecommendation(@NonNull final IFoursquareResponse<RecommendationResult> callback, @Nullable String ll, @Nullable PlaceCategories query, @NonNull int limit) {
         String url = setupURL("https://api.foursquare.com/v2/venues/explore") +
                 applyParameter("ll", ll) +
                 applyParameter("near", ll == null ? "Penang, Malaysia" : "") +
-                applyParameter("query", query) +
+                applyParameter("query", query == PlaceCategories.All ? "" : String.valueOf(query)) +
                 applyParameter("limit", String.valueOf(limit));
 
         StringRequest request = new StringRequest(
@@ -47,7 +47,7 @@ public class FoursquareService {
                     RecommendationResult recommendationResult = gson.fromJson(response, RecommendationResult.class);
                     callback.onResponse(recommendationResult);
                 },
-                error -> callback.onErrorResponse(error));
+                callback::onErrorResponse);
 
         requestQueue.add(request);
     }
@@ -68,7 +68,7 @@ public class FoursquareService {
                     VenuePhotoResult result = gson.fromJson(response, VenuePhotoResult.class);
                     callback.onResponse(result);
                 },
-                error -> callback.onErrorResponse(error));
+                callback::onErrorResponse);
 
         requestQueue.add(request);
     }
