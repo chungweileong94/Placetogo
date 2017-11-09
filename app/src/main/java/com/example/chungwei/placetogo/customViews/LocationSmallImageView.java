@@ -23,7 +23,7 @@ public class LocationSmallImageView extends android.support.v7.widget.AppCompatI
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
         int width = getMeasuredWidth();
-        setMeasuredDimension(width, width - 400);
+        setMeasuredDimension(width, width - 600);
     }
 
 }
