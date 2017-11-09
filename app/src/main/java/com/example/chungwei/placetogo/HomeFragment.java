@@ -217,11 +217,17 @@ public class HomeFragment extends Fragment {
                 break;
             case APIAIService.SEARCH:
                 Intent intent = new Intent(getContext(), SearchActivity.class);
-                intent.putExtra("searchQuery", aiResponse.getResult().getParameters().get("Places").getAsString());
+                intent.putExtra("searchQuery",
+                        aiResponse.getResult().getParameters().size() == 0 ?
+                                aiResponse.getResult().getResolvedQuery() :
+                                aiResponse.getResult().getParameters().get("Places").getAsString());
                 getContext().startActivity(intent);
                 break;
             default:
-                Toast.makeText(getContext(), "I do not understand what you said.", Toast.LENGTH_LONG).show();
+                Intent searchIntent = new Intent(getContext(), SearchActivity.class);
+                searchIntent.putExtra("searchQuery", aiResponse.getResult().getResolvedQuery());
+                getContext().startActivity(searchIntent);
+                Toast.makeText(getContext(), "I do not understand what you said, but I will try...", Toast.LENGTH_LONG).show();
                 break;
         }
     }

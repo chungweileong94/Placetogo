@@ -33,11 +33,30 @@ public class FoursquareService {
         gson = new GsonBuilder().excludeFieldsWithModifiers(Modifier.PROTECTED).create();
     }
 
-    public void getVenueRecommendation(@NonNull final IFoursquareResponse<RecommendationResult> callback, @Nullable String ll, @Nullable PlaceCategories query, @NonNull int limit) {
+    public void getVenueRecommendation(@NonNull final IFoursquareResponse<RecommendationResult> callback, @Nullable String ll, @Nullable PlaceCategories category, @NonNull int limit) {
         String url = setupURL("https://api.foursquare.com/v2/venues/explore") +
                 applyParameter("ll", ll) +
                 applyParameter("near", ll == null ? "Penang, Malaysia" : "") +
-                applyParameter("query", query == PlaceCategories.All ? "" : String.valueOf(query)) +
+                applyParameter("query", category == PlaceCategories.All ? "" : String.valueOf(category)) +
+                applyParameter("limit", String.valueOf(limit));
+
+        StringRequest request = new StringRequest(
+                Request.Method.GET,
+                url,
+                response -> {
+                    RecommendationResult recommendationResult = gson.fromJson(response, RecommendationResult.class);
+                    callback.onResponse(recommendationResult);
+                },
+                callback::onErrorResponse);
+
+        requestQueue.add(request);
+    }
+
+    public void getSearchVenue(@NonNull final IFoursquareResponse<RecommendationResult> callback, @Nullable String ll, @Nullable String query, @NonNull int limit) {
+        String url = setupURL("https://api.foursquare.com/v2/venues/explore") +
+                applyParameter("ll", ll) +
+                applyParameter("near", ll == null ? "Penang, Malaysia" : "") +
+                applyParameter("query", query) +
                 applyParameter("limit", String.valueOf(limit));
 
         StringRequest request = new StringRequest(

@@ -160,6 +160,7 @@ public class NearByFragment extends Fragment {
 
         swipeRefreshLayout.setRefreshing(true);
 
+        // TODO: 8/11/2017
         // GPS_PROVIDER got problem, use NETWORK_PROVIDER instead ///NETWORK_PROVIDER
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, new
                 LocationListener() {
